@@ -1,0 +1,26 @@
+.add-category{
+  .card-category{
+    cursor: pointer;
+    border: 1px solid #82868B;
+    border-radius: 8px;
+    transition: transform 500ms;
+    background-color: rgba(186, 191, 199, 0.15) !important;
+  }
+  .card-category:hover{
+    box-shadow: 0 0 20px rgba(130, 134, 139, 0.34) !important;;
+    //transform: translateY(1px);
+  }
+  .card-category.active{
+    cursor: pointer;
+    border: 1px solid #16B4BC;
+    border-radius: 8px;
+    transition: transform 500ms;
+    background-color: rgba(22, 180, 188, 0.12) !important;
+  }
+  .card-category.active h3{
+    color: #16B4BC !important;;
+  }
+  .card-category.active h5{
+    color: #16B4BC !important;;
+  }
+}
