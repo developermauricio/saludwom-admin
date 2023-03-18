@@ -29,7 +29,7 @@
           </a>
         </div>
         <div class="text-center mt-5" v-if="notifications && notifications.length === 0">
-          <p class="text-light" style="font-size: 1.2rem !important;">Sin notificaciones</p>
+          <p class="" style="font-size: 1.2rem !important;">Sin notificaciones</p>
         </div>
       </div>
     </vs-sidebar>
@@ -80,7 +80,7 @@ export default {
       this.$axios.get(`api/v1/get-notification-users/${this.$auth.user.id}`).then(resp => {
         this.notifications = []
         this.totalNews = 0
-        resp.data.data.map(item => {
+        resp.data.data.data.map(item => {
           if (item.read_at === null) {
             this.totalNews++
           }
@@ -90,9 +90,13 @@ export default {
         console.log('Error al cargar las notificaciones', err)
       })
     },
-    newNotification() {
-      subscriberMQTT('notification-0001', 'notification', (data) => {
-        this.getNotifications()
+    async newNotification() {
+      await subscriberMQTT('notification-0001', 'notification', (data) => {
+        if (parseInt(data) === this.$auth.user.id){
+          setTimeout(() => {
+            this.getNotifications()
+          }, 800)
+        }
       })
     },
   },

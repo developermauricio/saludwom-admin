@@ -15,8 +15,13 @@ const routes = [
     name: 'app',
     component: page('index.vue'),
     children: [
+      /* Rutas para el panel de control*/
       {path: '/panel-control', name: 'index.panel.control', component: page('app/panel-control/Index.vue')},
+      /* Rutas para los pacientes*/
       {path: '/pacientes', name: 'index.patients', component: page('app/patients/Patients.vue')},
+      /* Rutas para los objetivos o valoraciones*/
+      {path: '/objetivos', name: 'index.objectives', component: page('app/valorations/Valorations.vue')},
+      {path: '/objetivos/:slug', name: 'show.objectives', component: page('app/valorations/ShowValoration.vue')},
     ]
   },
 

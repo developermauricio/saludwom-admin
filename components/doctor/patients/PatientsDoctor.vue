@@ -55,20 +55,6 @@ export default {
         this.getPatients()
       }, 200)
     },
-    // getCountPatients() {
-    //   this.$vs.loading({
-    //     color: this.$config.colorLoading,
-    //     text: 'Espere por favor...'
-    //   })
-    //   this.$axios.get(`/api/v1/get-count-patients-doctor/${this.$auth.user.id}`).then(resp => {
-    //     this.items = resp.data.data
-    //     this.$vs.loading.close()
-    //   }).catch(e => {
-    //     console.log(e.response);
-    //     this.$vs.loading.close()
-    //     this.$toast.error("Error al consultar el contador de aspirantes. Consulte al administrador");
-    //   })
-    // },
   },
   mounted() {
     this.getPatients()

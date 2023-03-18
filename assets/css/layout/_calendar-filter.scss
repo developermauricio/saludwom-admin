@@ -1,0 +1,81 @@
+.header-picker{
+  background-color: #64223F !important;
+}
+span.lm-fs-12.flex-1{
+  color: #64223F !important;
+}
+span.custom-button-content.flex.align-center.justify-content-center{
+  color: #64223F !important;
+}
+button.custom-button.flex.align-center.justify-content-center.shortcut-button.with-border:hover{
+  background-color: rgb(100, 34, 63) !important;
+
+  span.lm-fs-12.flex-1{
+    color: #FFFFFF !important;
+  }
+  span.custom-button-effect{
+    background-color: rgb(100, 34, 63) !important;
+  }
+  span.custom-button-content.flex.align-center.justify-content-center{
+    fill: rgb(100, 34, 63) !important;
+  }
+}
+.shortcuts-container{
+  min-width: 153px !important;
+}
+button.custom-button.flex.align-center.justify-content-center.shortcut-button.with-border.is-selected{
+  span.custom-button-effect{
+    background-color: #64223F !important;
+  }
+  span.lm-fs-12.flex-1{
+    color: #FFFFFF !important;
+  }
+}
+button.custom-button.flex.align-center.justify-content-center.date-buttons.lm-fs-16.padding-button.flex-1:hover{
+  span.custom-button-effect{
+    background-color: rgb(100, 34, 63) !important;
+  }
+  span.custom-button-content.flex.align-center.justify-content-center{
+    fill: rgb(100, 34, 63) !important;
+    color: #FFFFFF !important;
+  }
+}
+button.custom-button.flex.align-center.justify-content-center.with-border.is-selected{
+  span.custom-button-effect{
+    background-color: #64223F !important;
+  }
+  span.custom-button-content.flex.align-center.justify-content-center{
+    fill: rgb(100, 34, 63) !important;
+    color: #FFFFFF !important;
+  }
+}
+button.custom-button.flex.align-center.justify-content-center.with-border:hover{
+  span.custom-button-effect{
+    background-color: rgb(100, 34, 63) !important;
+  }
+  span.custom-button-content.flex.align-center.justify-content-center{
+    fill: rgb(100, 34, 63) !important;
+    color: #FFFFFF !important;
+  }
+}
+button.datepicker-day.flex.align-center.justify-content-center.selected.enable.first{
+  span.datepicker-day-effect{
+    background-color: rgb(100, 34, 63) !important;
+  }
+}
+button.datepicker-day.flex.align-center.justify-content-center.selected.enable.between.last{
+  span.datepicker-day-effect{
+    background-color: rgb(100, 34, 63) !important;
+  }
+}
+
+button.datepicker-day.flex.align-center.justify-content-center.enable:hover{
+  span.datepicker-day-effect{
+    background-color: rgb(100, 34, 63) !important;
+  }
+}
+button.datepicker-day.flex.align-center.justify-content-center.enable.between{
+  span.datepicker-day-effect{
+    background-color: rgb(100, 34, 63) !important;
+  }
+}

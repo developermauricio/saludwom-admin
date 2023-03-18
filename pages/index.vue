@@ -3,8 +3,8 @@
     <Header/>
     <SidebarManu/>
     <router-view/> <!-- Componentes del sistema-->
-    <div class="sidenav-overlay"></div>
-    <div class="drag-target"></div>
+<!--    <div class="sidenav-overlay"></div>-->
+<!--    <div class="drag-target"></div>-->
 <!--    <Footer/>-->
   </div>
 

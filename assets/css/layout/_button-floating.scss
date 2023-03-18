@@ -1,0 +1,28 @@
+.float{
+  position:fixed;
+  width:55px;
+  height:55px;
+  bottom:40px;
+  right:30px;
+  background-color:#D85C72;
+  color:#FFF;
+  border-radius:50px;
+  text-align:center;
+  box-shadow: 2px 2px 3px #999;
+}
+.float:hover{
+  background-color: rgba(216, 92, 114, 0.51);
+  .icon-btn-floating{
+    .feather-message-square{
+      color: #FFFFFF !important;
+    }
+  }
+}
+
+.icon-btn-floating{
+  margin-top:17px;
+  .feather-message-square{
+    height: 1.8rem;
+    width: 1.8rem;
+  }
+}

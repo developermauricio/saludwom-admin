@@ -11,8 +11,8 @@
   height: inherit; }
 
 .chat-app-window .active-chat .chat-header {
-  display: flex;
-  justify-content: space-between;
+  /*display: flex;*/
+  /*justify-content: space-between;*/
   height: 65px;
   background-color: #fff;
   padding: 0 1rem;

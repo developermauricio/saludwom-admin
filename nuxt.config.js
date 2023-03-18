@@ -47,6 +47,8 @@ export default {
     '@/app-assets/css/themes/semi-dark-layout.css',
     '@/app-assets/css/core/menu/menu-types/vertical-menu.css',
     '@/app-assets/css/pages/authentication.css',
+    '@/app-assets/css/pages/app-chat.css',
+    '@/app-assets/css/pages/app-chat-list.css',
     '@/assets/css/style.css',
     'boxicons/css/boxicons.min.css'
   ],
@@ -60,6 +62,7 @@ export default {
     { src: '~/plugins/splideplugin' , mode: 'client' },
     {src: '~/plugins/mqtt', mode: 'client', ssr: false},
     { src: '~/app-assets/js/core/app.js', mode: 'client'},
+    { src: '~/plugins/vue-ctk-date-time-picker', ssr: false},
     { src: '~/app-assets/js/core/app-menu.js', mode: 'client'},
     { src: '~/app-assets/vendors/js/vendors.min.js', mode: 'client'},
     { src: '~/plugins/vue-toastification', mode: 'client', ssr: false},
@@ -106,7 +109,9 @@ export default {
     global: true,
     dirs: [
       '~/components',
+      '~/components/valoration',
       '~/components/doctor/patients',
+      '~/components/doctor/valorations',
       '~/components/admin/patients'
     ]
   },
