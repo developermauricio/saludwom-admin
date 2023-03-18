@@ -1,7 +1,7 @@
 module.exports = {
   apps:[
     {
-      name: 'SaludWom-Admin',
+      name: 'saludwom-admin',
       script: './start.js',
       port: 8000,
       env:{
