@@ -1,7 +1,7 @@
 module.exports = {
   apps:[
     {
-      name: 'SaludWom',
+      name: 'SaludWom-Admin',
       script: './start.js',
       env:{
         HOST: 'localhost',
