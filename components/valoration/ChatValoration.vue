@@ -5,6 +5,13 @@
       <a href="#" class="float" @click="funcOpenChat">
         <div class="icon-btn-floating" v-html="$feathericons['message-square'].toSvg()"></div>
       </a>
+      <div class="tooltip-chat-button">
+        <div class="text-center p-1" style="font-size: 0.85rem">
+          Seguimiento Online
+          <span v-if="unreadMessages > 0" class="badge rounded-pill bg-danger text-white"
+                style="font-size: 13px; height: 21px;right: -8px;top: -8px;">{{ unreadMessages }}</span>
+        </div>
+      </div>
     </div>
     <!--  Sidebar Contenido Chat  -->
     <vs-sidebar position-right parent="body" default-index="1" color="primary" class="sidebarx sidebar-chat-valuation"
@@ -20,6 +27,9 @@
             <div class="chat-navbar">
               <header class="chat-header m-0">
                 <div class="d-flex align-items-center pt-1">
+                  <a @click="openChat=false" class="mr-3">
+                    <div class="icon-close-chat" v-html="$feathericons['arrow-left'].toSvg()"></div>
+                  </a>
                   <div class="avatar avatar-border user-profile-toggle m-0 me-1">
                     <img v-if="valuation.patient.user.picture"
                          :src="`${$config.urlBack}${valuation.patient.user.picture}`" alt="SaludWom" height="36"
@@ -51,6 +61,11 @@
             <!-- User Chat messages -->
             <div class="user-chats py-5" v-if="messages && messages.length > 0">
               <div class="chats py-2">
+                <div v-if="finished" class="text-center p-1">
+                  <Transition name="modal">
+                    <p class="text-primary">No hay más mensajes</p>
+                  </Transition>
+                </div>
                 <div :class="`chat ${$auth.user.id !== message.send_user_id ? 'chat-left':''}`" v-for="(message, index) in messages" :key="index">
                   <div class="chat-body">
                     <div class="chat-content">
@@ -116,7 +131,16 @@ export default {
       message: '',
       openChat: false,
       timezoneUser: null,
-      messages: []
+      messages: [],
+      unreadMessages: 0,
+      page: 1,
+      pageSize: 0,
+      finished: false,
+    }
+  },
+  computed: {
+    url() {
+      return `api/v1/get-messages-valoration/${this.valuation.chat.id}/?page=${this.page}`
     }
   },
   props: ['valuation', 'chatChannel'],
@@ -144,6 +168,23 @@ export default {
       this.messages.push(message);
       this.toBottom();
     },
+    toTop() {
+      const element = document.querySelector(".vs-sidebar--items");
+      let resp = this
+      element.addEventListener('scroll', function () {
+        if (element.scrollTop === 0) {
+          setTimeout(() => {
+            console.log(resp.page)
+            if (resp.page <= resp.pageSize) {
+              resp.page++;
+              resp.getMessages()
+            } else {
+              resp.finished = true
+            }
+          }, 100)
+        }
+      });
+    },
     toBottom(transition = true) {
       const element = document.querySelector(".vs-sidebar--items");
       setTimeout(() => {
@@ -154,13 +195,29 @@ export default {
           params.behavior = "smooth";
         }
         element.scrollTo(params);
-      }, 100);
+      }, 50);
     },
     formatDate(date) {
       return this.$moment(date).tz(this.timezoneUser).format('llll')
     },
+    getUnreadMessages() {
+      if (this.openChat === true){
+        return
+      }
+      this.$axios.get(`api/v1/get-unread-message/${this.valuation.chat.id}`).then(resp => {
+        this.unreadMessages = resp.data.data
+      }).catch(e => {
+        console.log(e)
+      })
+    },
+    messageReadAt(){
+      this.$axios.post(`api/v1/message-read-at/${this.valuation.chat.id}`).then(resp => {
+      }).catch(e => {
+        console.log(e)
+      })
+    },
     getMessages(){
-      this.$axios.get(`api/v1/get-messages-valoration/${this.valuation.chat.id}`).then(resp =>{
+      this.$axios.get(`api/v1/get-messages-valoration/${this.valuation.chat.id}/?page=${this.page}`).then(resp =>{
         this.chatChannel = resp.data.chatChannel
         resp.data.data.data.forEach((message) => {
           this.messages.unshift({
@@ -170,8 +227,9 @@ export default {
             send_user_id: message.send_user_id,
             recipient_user_id: message.recipient_user_id,
             date: message.created_at,
-          });
-        });
+          })
+        })
+        this.pageSize = resp.data.lastPage
           // this.messages.unshift(resp.data.data.data)
       }).catch(e =>{
         console.log('ERROR', e);
@@ -180,26 +238,45 @@ export default {
       })
     },
     funcOpenChat() {
-      this.messages = []
-      setTimeout(() => {
+      // this.messages = []
         this.openChat = true
+        this.unreadMessages = 0
         this.toBottom();
-      }, 100)
-      this.getMessages()
+      if (this.messages && this.messages.length === 0){
+        this.getMessages()
+      }
     },
     async subscribeMqttMessage(){
       await subscriberMQTT("chat", this.chatChannel.chat_key, (message) => {
         if (message){
-          this.addMessageBottom(JSON.parse(message));
+          if (this.openChat === false) {
+            this.unreadMessages++
+          }else if (this.openChat === true){
+            this.messageReadAt()
+            this.addMessageBottom(JSON.parse(message));
+          }
         }
       });
     }
   },
   created() {
+    this.getUnreadMessages()
     this.timezoneUser = Intl.DateTimeFormat().resolvedOptions().timeZone
   },
   mounted() {
+    this.toTop()
     this.subscribeMqttMessage()
+  },
+  watch: {
+    'openChat': function (val) {
+      if (!val) {
+        if (this.pageSize === 1){
+          this.pageSize = 1
+        }
+        this.page = 1
+        this.finished = false
+      }
+    }
   }
 }
 </script>

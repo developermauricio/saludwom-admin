@@ -26,3 +26,25 @@
     width: 1.8rem;
   }
 }
+.tooltip-chat-button{
+  position: fixed;
+  background-color: #FFFFFF;
+  bottom: 110px;
+  color: #844550;
+  right: 15px;
+  border-radius: 10px;
+  -webkit-box-shadow: 10px 10px 25px 0px rgba(0,0,0,0.30);
+  -moz-box-shadow: 10px 10px 25px 0px rgba(0,0,0,0.30);
+  box-shadow: 10px 10px 25px 0px rgba(0, 0, 0, 0.25);
+}
+.tooltip-chat-button:after{
+  content: "";
+  position: absolute;
+  bottom: -9px;
+  left: 75%;
+  margin-left: -9px;
+  width: 18px;
+  height: 18px;
+  background: #FFFFFF;
+  transform: rotate(45deg);
+}

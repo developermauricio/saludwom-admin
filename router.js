@@ -22,6 +22,8 @@ const routes = [
       /* Rutas para los objetivos o valoraciones*/
       {path: '/objetivos', name: 'index.objectives', component: page('app/valorations/Valorations.vue')},
       {path: '/objetivos/:slug', name: 'show.objectives', component: page('app/valorations/ShowValoration.vue')},
+      /* Rutas para los cuestionarios*/
+      {path: '/cuestionarios', name: 'index.questionnaires', component: page('app/questionnaires/Questionnaires')},
     ]
   },
 

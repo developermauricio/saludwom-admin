@@ -45,6 +45,14 @@
               </div>
             </a>
           </li>
+          <li :class="this.currentUrl === '/cuestionarios' ? 'active' :''" class=" nav-item">
+            <a @click="goTo('/cuestionarios')" class="d-flex align-items-center menu-principal">
+              <div v-html="$feathericons['users'].toSvg()"></div>
+              <div class="content-title-text">
+                <span class="menu-title text-truncate">Cuestionarios</span>
+              </div>
+            </a>
+          </li>
 
 <!--          <li :class="this.currentUrl === '/instructores' ? 'active' :''" class=" nav-item">-->
 <!--            <a @click="goTo('/instructores')" class="d-flex align-items-center menu-principal">-->

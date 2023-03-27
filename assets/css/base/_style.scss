@@ -177,4 +177,32 @@
 .bg-light-primary {
   color: #D85C72 !important;
 }
-
+a.text-primary{
+  color: #D85C72 !important;
+}
+a.text-primary:hover{
+  color: #792141 !important;
+}
+.btn-info-zoom{
+  background-color: #0b5cff !important;
+  color: #fff !important;
+}
+.btn-info-zoom:hover{
+  background-color: #053494 !important;
+  color: #fff !important;
+}
+.multiselect__tag{
+  background: #792141 !important;
+}
+.multiselect__tag-icon:after{
+  color: #ffffff !important;
+}
+.multiselect__tag-icon:focus, .multiselect__tag-icon:hover {
+  background: #D85C72 !important;
+}
+.multiselect__option--highlight {
+  background: #792141 !important;
+}
+.Vue-Toastification__container{
+  z-index: 999999999 !important;
+}

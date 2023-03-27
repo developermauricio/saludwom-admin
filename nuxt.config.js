@@ -3,19 +3,19 @@ export default {
   head: {
     title: 'saludwom-admin',
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      {charset: 'utf-8'},
+      {name: 'viewport', content: 'width=device-width, initial-scale=1'},
+      {hid: 'description', name: 'description', content: ''},
+      {name: 'format-detection', content: 'telephone=no'}
     ],
     bodyAttrs: {
       class: 'vertical-layout vertical-menu-modern  navbar-floating',
       'data-open': "click",
-      'data-menu':"vertical-menu-modern",
-      'data-col':""
+      'data-menu': "vertical-menu-modern",
+      'data-col': ""
     },
     script: [
-      { src: "https://code.jquery.com/jquery-3.4.1.min.js" },
+      {src: "https://code.jquery.com/jquery-3.4.1.min.js"},
       // {
       //   src: 'https://unpkg.com/feather-icons'
       // },
@@ -23,11 +23,11 @@ export default {
       //   src: 'https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.5/perfect-scrollbar.min.js'
       // },
       {
-        type:'text/javascript'
+        type: 'text/javascript'
       }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
     ]
   },
 
@@ -57,19 +57,26 @@ export default {
   plugins: [
     '~/plugins/vue-sax',
     '~/plugins/vuelidate',
+    '~/plugins/vue-multiselect',
     '~/plugins/laravel-permissions',
-    { src: '~/plugins/vue-easytable', ssr: false},
-    { src: '~/plugins/splideplugin' , mode: 'client' },
+    {src: '~/plugins/vue-easytable', ssr: false},
+    {src: '~/plugins/splideplugin', mode: 'client'},
     {src: '~/plugins/mqtt', mode: 'client', ssr: false},
-    { src: '~/app-assets/js/core/app.js', mode: 'client'},
-    { src: '~/plugins/vue-ctk-date-time-picker', ssr: false},
-    { src: '~/app-assets/js/core/app-menu.js', mode: 'client'},
-    { src: '~/app-assets/vendors/js/vendors.min.js', mode: 'client'},
-    { src: '~/plugins/vue-toastification', mode: 'client', ssr: false},
+    {src: '~/app-assets/js/core/app.js', mode: 'client'},
+    {src: '~/plugins/vue-ctk-date-time-picker', ssr: false},
+    {src: '~/app-assets/js/core/app-menu.js', mode: 'client'},
+    {src: '~/plugins/vue-sweetalert2', mode: 'client', ssr: false},
+    {src: '~/app-assets/vendors/js/vendors.min.js', mode: 'client'},
+    {src: '~/plugins/vue-file-agent.js', mode: 'client', ssr: false},
+    {src: '~/plugins/vue-load-image.js', mode: 'client', ssr: false},
+    {src: '~/plugins/vue-toastification', mode: 'client', ssr: false},
+    {src: '~/plugins/vue-fullpage-modal.js', mode: 'client', ssr: false},
+    {src: '~/plugins/vuejs-loadmore.js'}
   ],
 
   publicRuntimeConfig: {
     urlBack: process.env.BASE_URL_API_BACK,
+    urlDigitalOcean: process.env.DIGITALOCEAN_SPACES_ENDPOINT,
     nameApp: process.env.NAME,
     colorLoading: process.env.COLOR_BASE,
     axios: {
@@ -96,9 +103,9 @@ export default {
           // autoFetch: true
         },
         endpoints: {
-          login: { url: '/login', method: 'post' },
-          logout: { url: '/logout', method: 'post' },
-          user: { url: '/api/v1/user', method: 'get' }
+          login: {url: '/login', method: 'post'},
+          logout: {url: '/logout', method: 'post'},
+          user: {url: '/api/v1/user', method: 'get'}
         }
       }
     }
@@ -110,9 +117,10 @@ export default {
     dirs: [
       '~/components',
       '~/components/valoration',
+      '~/components/questionnaire',
+      '~/components/admin/patients',
       '~/components/doctor/patients',
-      '~/components/doctor/valorations',
-      '~/components/admin/patients'
+      '~/components/doctor/valorations'
     ]
   },
 
@@ -153,6 +161,5 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
-  }
+  build: {}
 }

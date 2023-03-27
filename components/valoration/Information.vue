@@ -64,21 +64,21 @@
           <div class="card-header">
             <h4>Documentos o archivos adjuntos 📎.</h4>
           </div>
-          <div class="card-body">
-
+          <div class="card-body px-1">
+            <Archives :archives="valuation.archives"/>
           </div>
         </div>
       </div>
       <!--=====================================
           CITAS
        ======================================-->
-      <div class="col-12 col-md-6 col-lg-6">
+      <div class="col-12 col-md-6 col-lg-6" v-if="valuation.subscription.plan_id !== 1">
         <div class="card">
           <div class="card-header">
             <h4>Citas 🗓.</h4>
           </div>
           <div class="card-body">
-
+              <Appointments :appointments="valuation.appointments"/>
           </div>
         </div>
       </div>
@@ -87,11 +87,20 @@
        ======================================-->
       <div class="col-12 col-md-6 col-lg-6">
         <div class="card">
-          <div class="card-header">
-            <h4>Suscripción para este objetivo 🔥.</h4>
+          <div class="card-header d-flex justify-content-between">
+            <div>
+              <h4>Suscripción para este objetivo 🔥.</h4>
+            </div>
+            <div>
+              <div>
+                <span :class="`badge bg-${ stateColorSubs(valuation.subscription.state)} ms-2 text-white`">{{
+                    stateTitleSubs(valuation.subscription.state)
+                  }}</span>
+              </div>
+            </div>
           </div>
           <div class="card-body">
-
+            <InfoSubscription :subscription="valuation.subscription"/>
           </div>
         </div>
       </div>
@@ -137,7 +146,35 @@ export default {
         case '5':
           return 'success'
       }
-    }
+    },
+    stateColorSubs(state) {
+      switch (state) {
+        case '1':
+          return 'warning'
+        case '2':
+          return 'danger'
+        case '3':
+          return 'danger'
+        case '4':
+          return 'success'
+        case '5':
+          return 'info'
+      }
+    },
+    stateTitleSubs(state) {
+      switch (state) {
+        case '1':
+          return 'Pendiente'
+        case '2':
+          return 'Cancelada'
+        case '3':
+          return 'Rechazado'
+        case '4':
+          return 'Activa'
+        case '5':
+          return 'Completada'
+      }
+    },
   },
   created() {
     this.timezoneUser = Intl.DateTimeFormat().resolvedOptions().timeZone

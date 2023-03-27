@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mt-5">
     <div class="card">
       <div class="card-header d-flex justify-content-between">
         <h4 class="card-title mb-2 mb-md-0 mb-lg-0">Lista de Pacientes</h4>
@@ -188,7 +188,7 @@ export default {
         this.genders = resp.data.data
       }).catch(e =>{
         console.log(e)
-        this.$toast.error("Al obtener los géneros. Consulte con el administrador.");
+        this.$toast.error("Al obtener los géneros. Consulte a soporte SaludWom.");
       })
     },
     search() {
