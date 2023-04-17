@@ -4,13 +4,20 @@ export const state = () => ({
     name: '',
     description: '',
     treatments: [],
-    questions: []
+    questions: [],
+    removeQuestions: [],
   },
 })
 export const mutations = {
   //Agregar las preguntas al cuestionario
   SET_ADD_QUESTIONS(state, payload) {
     state.questionnaire.questions = [...state.questionnaire.questions, payload]
+  },
+  //Agregar las preguntas al cuestionario
+  SET_REMOVE_QUESTIONS(state, payload) {
+    if (payload.id){
+      state.questionnaire.removeQuestions = [...state.questionnaire.removeQuestions, payload]
+    }
   },
   //Agregar el nombre del cuestionario
   SET_NAME_QUESTIONNAIRE(state, payload) {
@@ -30,7 +37,8 @@ export const mutations = {
       name: '',
       description: '',
       questions: [],
-      treatments: []
+      treatments: [],
+      removeQuestions: [],
     }
   }
 }

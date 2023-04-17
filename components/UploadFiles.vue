@@ -32,6 +32,7 @@ export default {
     return {
       fileRecords: [],
       uploadHeaders: '',
+      error: false,
       // uploadUrl: ``,
       fileRecordsForUpload: []
     }
@@ -77,40 +78,50 @@ export default {
     },
     filesSelected: function (fileRecordsNewlySelected) {
       let validFileRecords = fileRecordsNewlySelected.filter((fileRecord) => !fileRecord.error);
-      this.fileRecordsForUpload = this.fileRecordsForUpload.concat(validFileRecords);
+      console.log(validFileRecords.length)
+      if (validFileRecords.length > 0) {
+        this.fileRecordsForUpload = this.fileRecordsForUpload.concat(validFileRecords);
+      } else {
+        this.error = true
+      }
+
     },
     onBeforeDelete: function (fileRecord) {
       let i = this.fileRecordsForUpload.indexOf(fileRecord);
+      let k = this.fileRecords.indexOf(fileRecord);
       if (i !== -1) {
+        this.$emit('clearData')
         // queued file, not yet uploaded. Just remove from the arrays
         this.fileRecordsForUpload.splice(i, 1);
-        let k = this.fileRecords.indexOf(fileRecord);
+
         if (k !== -1) this.fileRecords.splice(k, 1);
       } else {
 
-        this.$confirm(
-          {
-            message: '¿Estas seguro de quitar este archivo?',
-            button: {
-              no: 'No',
-              yes: 'Si'
-            },
-            /**
-             * Callback Function
-             * @param {Boolean} confirm
-             */
-            callback: async confirm => {
-              if (confirm) {
-                this.$refs.vueFileAgent.deleteFileRecord(fileRecord); // will trigger 'delete' event
-              }
-            }
-          })
+        // this.$confirm(
+        //   {
+        //     message: '¿Estas seguro de quitar este archivo?',
+        //     button: {
+        //       no: 'No',
+        //       yes: 'Si'
+        //     },
+        //     /**
+        //      * Callback Function
+        //      * @param {Boolean} confirm
+        //      */
+        //     callback: async confirm => {
+        //       if (confirm) {
+        //         this.$refs.vueFileAgent.deleteFileRecord(fileRecord); // will trigger 'delete' event
+        //       }
+        //     }
+        //   })
         // if (confirm('Are you sure you want to delete?')) {
-        //   this.$refs.vueFileAgent.deleteFileRecord(fileRecord); // will trigger 'delete' event
+        this.fileRecords.splice(k, 1);
+        this.$refs.vueFileAgent.deleteFileRecord(fileRecord); // will trigger 'delete' event
         // }
       }
     },
     fileDeleted: function (fileRecord) {
+      this.error = false
       let i = this.fileRecordsForUpload.indexOf(fileRecord);
       if (i !== -1) {
         this.fileRecordsForUpload.splice(i, 1);
@@ -118,7 +129,7 @@ export default {
         this.deleteUploadedFile(fileRecord);
       }
     },
-    validateUpload(countArchives){
+    validateUpload(countArchives) {
       let totalArchives = this.numberArchives - countArchives
       console.log(this.fileRecordsForUpload.length)
       console.log(totalArchives)
@@ -169,12 +180,17 @@ export default {
       }, 500)
     })
   },
-  watch:{
-    fileRecords: function (val) {
-      if (val){
-        this.$emit('fileRecords', val)
-      }
-    }
+  watch: {
+    fileRecords: {
+      handler(val) {
+        setTimeout(() => {
+          if (!this.error) {
+          this.$emit('fileRecords', val)
+          }
+        }, 200)
+      },
+      deep: true
+    },
   }
 }
 </script>

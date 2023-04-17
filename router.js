@@ -24,6 +24,9 @@ const routes = [
       {path: '/objetivos/:slug', name: 'show.objectives', component: page('app/valorations/ShowValoration.vue')},
       /* Rutas para los cuestionarios*/
       {path: '/cuestionarios', name: 'index.questionnaires', component: page('app/questionnaires/Questionnaires')},
+      /* Rutas para los recursos*/
+      {path: '/recursos', name: 'index.resources', component: page('app/resources/Resources')},
+      {path: '/recursos/:slug/:id', name: 'show.resources', component: page('app/resources/ShowResources')},
     ]
   },
 
@@ -32,7 +35,7 @@ const routes = [
    =============================================*/
   {path: '/login', name: 'login', component: page('auth/login/Login.vue')},
   {path: '/password/email', name: 'password.email', component: page('auth/password/ResetEmail.vue')},
-  {path: '/password-reset/:token', name: 'password.reset', component: page('auth/password/PasswordReset.vue')},
+  {path: '/password-reset/:token', props: true, name: 'password.reset', component: page('auth/password/PasswordReset.vue')},
 ];
 
 export function createRouter() {

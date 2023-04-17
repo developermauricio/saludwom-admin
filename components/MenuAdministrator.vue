@@ -47,9 +47,17 @@
           </li>
           <li :class="this.currentUrl === '/cuestionarios' ? 'active' :''" class=" nav-item">
             <a @click="goTo('/cuestionarios')" class="d-flex align-items-center menu-principal">
-              <div v-html="$feathericons['users'].toSvg()"></div>
+              <div v-html="$feathericons['file-text'].toSvg()"></div>
               <div class="content-title-text">
                 <span class="menu-title text-truncate">Cuestionarios</span>
+              </div>
+            </a>
+          </li>
+          <li :class="this.currentUrl === '/recursos' ? 'active' :''" class=" nav-item">
+            <a @click="goTo('/recursos')" class="d-flex align-items-center menu-principal">
+              <div v-html="$feathericons['paperclip'].toSvg()"></div>
+              <div class="content-title-text">
+                <span class="menu-title text-truncate">Recursos</span>
               </div>
             </a>
           </li>

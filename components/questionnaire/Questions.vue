@@ -9,7 +9,7 @@
           <th>Requerido</th>
           <th>Ilustración</th>
           <th>Opciones</th>
-          <th>Quitar</th>
+          <th  v-role="'Admin'">Quitar</th>
         </tr>
         </thead>
 
@@ -19,7 +19,7 @@
           <td>{{ question.type.name }}</td>
           <td>{{ question.required ? 'Si' : 'No' }}</td>
           <td class="text-center">
-            <img @click="previewIlustration(question.ilustration.urlResized, question.question)" v-if="question.ilustration || question.illustration" width="50" height="50" :src="question.illustration ? $config.urlBack+question.illustration : question.ilustration.urlResized" alt="" style="cursor: pointer">
+            <img @click="previewIlustration(question)" v-if="question.illustration || question.illustration?.urlResized" width="50" height="50" :src="question.illustration?.urlResized ?  question.illustration?.urlResized  : $config.urlBack+question.illustration" alt="" style="cursor: pointer">
             <div class="text-center" v-else>&#45;&#45;</div>
           </td>
           <td class="text-center">
@@ -31,8 +31,8 @@
               }}]
             </div>
           </td>
-          <td>
-            <a href="#" @click="removeQuestion(index)">Eliminar</a>
+          <td  v-role="'Admin'">
+            <a href="#" @click="removeQuestion(index, question)">Eliminar</a>
           </td>
         </tr>
         </tbody>
@@ -55,21 +55,21 @@ export default {
     }
   },
   methods: {
-    previewIlustration(ilustration, question){
+    previewIlustration(question){
       this.$FModal.show(
         {
           component: PreviewIlustration,
           // clickToClose: false,
-          // escToClose: false,
+          // escToClose: false, d
           placement: 'center center',
         },
         {
-          ilustration: ilustration,
           question: question
         }
       )
     },
-    removeQuestion(index) {
+    removeQuestion(index, question) {
+      this.$store.commit('SET_REMOVE_QUESTIONS', question)
       this.$store.state.app.questionnaire.questions.splice(index, 1)
     }
   },

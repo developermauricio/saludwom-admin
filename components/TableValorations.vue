@@ -33,7 +33,7 @@
             FILTRAR POR TIPO
        ======================================-->
         <div class="mr-3 mt-1 px-1 m-md-0 m-lg-0">
-          <label class="form-label" for="basicSelect">Filtar por estado</label>
+          <label class="form-label" for="basicSelect">Filtrar por estado</label>
           <select v-model="filters.valueState" class="form-select" id="basicSelect">
             <option value="">Mostrar todos</option>
             <option value="1">Pendiente de enviar recursos</option>
@@ -47,7 +47,7 @@
             FILTRAR POR SUSCRIPCIÓN
        ======================================-->
         <div class="mr-3  mt-1 px-1 m-md-0 m-lg-0">
-          <label class="form-label" for="basicSelect">Filtar por suscripción</label>
+          <label class="form-label" for="basicSelect">Filtrar por suscripción</label>
           <select v-model="filters.valuePlan" class="form-select" id="basicSelect">
             <option value="">Mostrar todos</option>
             <option v-for="(plan, index) in plans" :key="plan.id" :value="plan.id">
@@ -59,7 +59,7 @@
              FILTRAR GÉNERO
         ======================================-->
         <div class="mr-3  mt-1 px-1 m-md-0 m-lg-0">
-          <label class="form-label" for="basicSelect">Filtar por género</label>
+          <label class="form-label" for="basicSelect">Filtrar por género</label>
           <select v-model="filters.valueGender" class="form-select" id="basicSelect">
             <option value="">Mostrar todos</option>
             <option v-for="(gender, index) in genders" :key="gender.id" :value="gender.id">

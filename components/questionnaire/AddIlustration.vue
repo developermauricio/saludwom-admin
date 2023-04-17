@@ -17,7 +17,7 @@
       />
     </div>
     <div class="d-flex justify-content-end">
-      <button class="btn btn-success" @click="addIlustration" v-if="ilustration"> Agregar Ilustración</button>
+      <button class="btn btn-success" @click="addIllustration" v-if="illustration"> Agregar Ilustración</button>
     </div>
   </div>
 </template>
@@ -29,7 +29,7 @@ export default {
   name: "AddIlustration",
   data() {
     return {
-      ilustration: '',
+      illustration: '',
 
       uploadUrl: '',
       theme: '',
@@ -45,12 +45,12 @@ export default {
     }
   },
   methods: {
-    addIlustration(){
-      bus.$emit('addIlustration', this.ilustration)
+    addIllustration(){
+      bus.$emit('addIlustration', this.illustration)
       this.$FModal.hide()
     },
     file(file) {
-      this.ilustration = file[0]
+      this.illustration = file[0]
     }
   }
 }

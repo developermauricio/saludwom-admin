@@ -31,7 +31,7 @@
             <label class="form-check-label" for="colorCheck5">Pregunta Requerida</label>
           </div>
           <div>
-            <img v-if="this.form.ilustration" :src="this.form.ilustration.urlResized" width="60" height="60" alt="">
+            <img v-if="this.form.illustration" :src="this.form.illustration.urlResized" width="60" height="60" alt="">
             <a  v-else href="#" @click="addIlustration">Agregar Ilustración</a>
           </div>
         </div>
@@ -83,7 +83,7 @@ export default {
       form: {
         options: [],
         question: '',
-        ilustration: null,
+        illustration: null,
         type: {
         },
         required: false,
@@ -146,7 +146,7 @@ export default {
       this.form = {
         options: [],
         question: '',
-        ilustration: null,
+        illustration: null,
         type: '',
         required: false,
       }
@@ -163,7 +163,7 @@ export default {
   mounted() {
     this.getTypesQuestion()
     bus.$on('addIlustration', (data) =>{
-      this.form.ilustration = data
+      this.form.illustration = data
     })
   },
   watch: {

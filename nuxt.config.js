@@ -49,6 +49,7 @@ export default {
     '@/app-assets/css/pages/authentication.css',
     '@/app-assets/css/pages/app-chat.css',
     '@/app-assets/css/pages/app-chat-list.css',
+    '@/app-assets/css/pages/app-file-manager.css',
     '@/assets/css/style.css',
     'boxicons/css/boxicons.min.css'
   ],
@@ -59,6 +60,7 @@ export default {
     '~/plugins/vuelidate',
     '~/plugins/vue-multiselect',
     '~/plugins/laravel-permissions',
+    { src: '~/plugins/truncate.js' },
     {src: '~/plugins/vue-easytable', ssr: false},
     {src: '~/plugins/splideplugin', mode: 'client'},
     {src: '~/plugins/mqtt', mode: 'client', ssr: false},
@@ -117,10 +119,12 @@ export default {
     dirs: [
       '~/components',
       '~/components/valoration',
+      '~/components/resources',
       '~/components/questionnaire',
       '~/components/admin/patients',
       '~/components/doctor/patients',
-      '~/components/doctor/valorations'
+      '~/components/doctor/valorations',
+      '~/components/valoration/resources'
     ]
   },
 

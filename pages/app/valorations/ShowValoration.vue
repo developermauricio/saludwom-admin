@@ -12,7 +12,7 @@
             </div>
         <!--   Botones   -->
             <div>
-              <button class="btn btn-primary btn-sm mr-4">Asignar Recursos</button>
+              <button class="btn btn-primary btn-sm mr-4" @click="addResources()">Asignar Recursos</button>
 <!--              <button class="btn btn-warning mr-4">Asignar Tratamiento</button>-->
 <!--              <button class="btn btn-info mr-4">Informe Médico</button>-->
 <!--              <button class="btn btn-success ">Finalizar Tratamiento</button>-->
@@ -46,13 +46,15 @@
           </vs-tabs>
         </div>
       </div>
-      <!-- Chat Boton Flotante-->
-      <ChatValoration :valuation="valuation" :chatChannel="valuation.chat" v-if="valuation.subscription.plan_id === 1"/>
+      <!-- Chat Boton Flotante SOLO PARA EL PLAN ESMERALDA Y DIAMANTE-->
+      <ChatValoration :valuation="valuation" :chatChannel="valuation.chat" v-if="valuation.subscription.plan_id === 1 || valuation.subscription.plan_id === 2"/>
     </div>
   </div>
 </template>
 
 <script>
+import ModalAddResources from "../../../components/valoration/resources/ModalAddResources";
+
 export default {
   name: "ShowValoration",
   data(){
@@ -69,6 +71,20 @@ export default {
     }
   },
   methods:{
+    /* Agregar recursos*/
+    addResources(){
+      this.$FModal.show(
+        {
+          component: ModalAddResources,
+          // clickToClose: false,
+          // escToClose: false,
+          placement: 'center center',
+        },
+        {
+          valoration: this.valuation
+        }
+      )
+    },
     getValuation() {
       const params = this.$route.params
       this.$axios.get(`/api/v1/get-valuation/${params.slug}`).then(resp => {

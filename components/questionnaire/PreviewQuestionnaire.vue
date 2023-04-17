@@ -13,7 +13,7 @@
       </div>
     </div>
     <!--  Preguntas Formulario  -->
-    <p class="font-italic">Al lado de cada pregunta, hay un icono <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+    <p  v-role="'Admin'" class="font-italic">Al lado de cada pregunta, hay un icono <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                                    class="bi bi-grip-horizontal" viewBox="0 0 16 16" style="cursor: pointer">
       <path
         d="M2 8a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
@@ -24,7 +24,7 @@
         <div class="col-12" v-for="(question, index) in $store.state.app.questionnaire.questions" :key="index">
 
           <div class="d-flex align-items-center">
-            <div class="mr-3">
+            <div class="mr-3" v-role="'Admin'">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                    class="bi bi-grip-horizontal" viewBox="0 0 16 16" style="cursor: pointer">
                 <path

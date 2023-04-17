@@ -1,0 +1,13 @@
+.resources-questionnaires {
+  .item-questionnaire {
+    transition: all 0.1s ease;
+  }
+
+  .item-questionnaire:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .selected.item-questionnaire {
+    border: 1px #D85C72 solid;
+  }
+}

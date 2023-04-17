@@ -260,7 +260,7 @@ export default {
     }
   },
   created() {
-    this.getUnreadMessages()
+    // this.getUnreadMessages()
     this.timezoneUser = Intl.DateTimeFormat().resolvedOptions().timeZone
   },
   mounted() {
