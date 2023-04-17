@@ -1,12 +1,12 @@
 module.exports = {
   apps:[
     {
-      name: 'saludwom-admin',
+      name: 'admin.test-aicode.com',
       script: './start.js',
-      port: 8000,
+      port: 8100,
       env:{
         HOST: 'localhost',
-        PORT: 8000
+        PORT: 8100
       }
     },
   ]
