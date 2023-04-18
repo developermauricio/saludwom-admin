@@ -93,7 +93,7 @@ export default {
         bodyRowEvents: ({row, rowIndex}) => {
           return {
             click: (event) => {
-              this.openModalDetail(row)
+              // this.openModalDetail(row)
             },
           };
         },

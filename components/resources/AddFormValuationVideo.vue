@@ -50,7 +50,7 @@
           <div class="form-check form-switch">
             <input class="form-check-input" v-model="form.state" id="flexSwitchCheckChecked" type="checkbox">
             <label class="form-check-label"
-                   for="flexSwitchCheckChecked">{{ form.state ? 'Disponible' : 'No Disponible'}}</label>
+                   for="flexSwitchCheckChecked">{{ form.state ? 'Disponible' : 'No Disponible' }}</label>
           </div>
         </div>
         <!--  Agregar Imagen   -->
@@ -109,14 +109,20 @@ export default {
         this.swalAlert('¿Esta seguro de actualizar el video?', 'warning', 'Estoy Seguro', 'Cancelar')
       ).then(async result => {
         if (result.value) {
+          this.$vs.loading({
+            color: this.$config.colorLoading,
+            text: 'Espere por favor...'
+          })
           let form = this.formData(this.form)
           let resourceId = this.resourceFolderContentId
-          let response = await this.$store.dispatch('updateVideo', {form:form, id:resourceId})
+          let response = await this.$store.dispatch('updateVideo', {form: form, id: resourceId})
           if (response) {
+            this.$vs.loading.close()
             this.$FModal.hide()
             await this.$store.dispatch('getVideosResourceFolder', this.folderId)
             this.$toast.success('Video actualizado exitosamente!');
           } else {
+            this.$vs.loading.close()
             this.$toast.error('Error al actualizar el video.');
           }
         }
@@ -146,7 +152,7 @@ export default {
       form.append('pathFileIframeUrl', this.form.pathFileUrl)
       form.append('treatments', JSON.stringify(this.form.treatments))
       form.append('folderId', this.form.folderId)
-      if (this.video){
+      if (this.video) {
         form.append('fileId', this.video.id)
       }
 
@@ -161,14 +167,20 @@ export default {
         this.swalAlert('¿Esta seguro de agregar el video?', 'warning', 'Estoy Seguro', 'Cancelar')
       ).then(async result => {
         if (result.value) {
+          this.$vs.loading({
+            color: this.$config.colorLoading,
+            text: 'Espere por favor...'
+          })
           let form = this.formData()
-          console.log('ESTE ES EL FORM ',form)
+          console.log('ESTE ES EL FORM ', form)
           let response = await this.$store.dispatch('addVideo', form)
           if (response) {
+            this.$vs.loading.close()
             this.$FModal.hide()
             await this.$store.dispatch('getVideosResourceFolder', this.folderId)
             this.$toast.success('Video agregado exitosamente!');
           } else {
+            this.$vs.loading.close()
             this.$toast.error('Error al agregar el video.');
           }
         }

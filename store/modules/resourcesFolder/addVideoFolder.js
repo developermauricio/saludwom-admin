@@ -20,11 +20,12 @@ export const mutations = {
   },
 }
 export const actions = {
+
   getVideosResourceFolder({commit, state}, folderId) {
     this.$axios.$get(`/api/v1/get-files-resource-to-folder/${folderId}`).then(resp => {
       commit('SET_VIDEOS_RESOURCE_FOLDER', resp.data)
       console.log(resp)
-
+      state.dataLoading = false
     }).catch(e => {
       console.log('ERROR ', e)
       this.$toast.error('Error al obtener los videos.');

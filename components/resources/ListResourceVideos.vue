@@ -24,7 +24,12 @@ export default {
     }
   },
   async beforeMount() {
+    this.$vs.loading({
+      color: this.$config.colorLoading,
+      text: 'Espere por favor...'
+    })
     await this.$store.dispatch('getVideosResourceFolder', this.folderId)
+    this.$vs.loading.close()
   },
 }
 </script>
