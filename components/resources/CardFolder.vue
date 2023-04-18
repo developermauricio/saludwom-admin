@@ -11,7 +11,7 @@
     <div class="card-body">
       <div class="content-wrapper">
         <p class="card-text file-name mb-0">{{ folder.folder }}</p>
-        <p class="card-text file-size mb-0">{{ folder.state }}</p>
+        <p class="card-text file-size mb-0">{{ folder.archives_count }}</p>
         <!--        <p class="card-text file-date">01 may 2019</p>-->
       </div>
       <small class="file-accessed text-muted">{{ folder.description }}</small>
