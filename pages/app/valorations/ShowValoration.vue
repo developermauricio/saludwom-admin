@@ -76,8 +76,8 @@ export default {
       this.$FModal.show(
         {
           component: ModalAddResources,
-          // clickToClose: false,
-          // escToClose: false,
+          clickToClose: false,
+          escToClose: false,
           placement: 'center center',
         },
         {

@@ -3,23 +3,27 @@
     <div class="d-flex mb-2">
       <div class="w-50">
         <label for="">Buscar Cuestionario:</label>
-        <input v-model="valueSearchQuestionnaire" type="text" placeholder="Buscar..."
-               class="form-control">
+        <input v-model="valueSearchQuestionnaire" type="text" placeholder="Buscar..." class="form-control">
       </div>
 
     </div>
     <div class="col-12 col-md-6 col-lg-6" v-for="(questionnaire, index) in questionnairesFilter" :key="index">
       <div :class="{ selected: isSelected(questionnaire) }" class="card item-questionnaire">
         <div class="card-header d-flex justify-content-between align-items-center">
-          <h5 @click="selectQuestionnaire(questionnaire)" style="cursor:pointer;">{{ questionnaire.name }}</h5>
+          <h5 @click="selectQuestionnaire(questionnaire)" style="cursor:pointer;">{{ questionnaire.name | truncate(2) }}</h5>
           <a href="#" @click="showQuestionnaire(questionnaire)">Ver cuestionario</a>
         </div>
-        <div class="card-body">
-          Tags:
-          <div v-for="(treatment, index) in questionnaire.treatments" :key="index">
-            <span class="badge bg-primary ml-1 mt-1">{{ treatment.treatment }}</span>
-          </div>
-        </div>
+<!--        <div class="card-body">-->
+<!--          Tags:-->
+<!--          <div v-for="(treatment, index) in questionnaire.treatments" :key="index">-->
+<!--&lt;!&ndash;            <span class="badge bg-primary ml-1 mt-1">{{ treatment.treatment }}</span>&ndash;&gt;-->
+<!--            <ul class="m-0">-->
+<!--              <li>-->
+<!--                <p class="font-italic text-muted m-0" style="font-size: 12px">{{ treatment.treatment }}. </p>-->
+<!--              </li>-->
+<!--            </ul>-->
+<!--          </div>-->
+<!--        </div>-->
       </div>
     </div>
   </div>

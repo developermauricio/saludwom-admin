@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="content-body">
-          <ListResourceVideos :folderId="folderId"/>
+          <ListResourceVideos :folderId="folderId" :cols="4"/>
       </div>
     </div>
   </div>
@@ -43,7 +43,7 @@ export default {
           placement: 'center top',
         },
         {
-          folderId: this.folderId
+          folderId: this.folderId,
         }
       )
     }

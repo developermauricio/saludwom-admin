@@ -25,7 +25,6 @@ export default {
   props: ['folder'],
   methods: {
     open(folder) {
-      console.log(folder)
       this.$router.push(
         {
           path: `/recursos/${folder.slug}/${folder.id}`,

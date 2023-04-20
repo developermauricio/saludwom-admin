@@ -81,7 +81,6 @@ export default {
       const url = new URL(file, window.location.href);
       const ruta = url.pathname.split('/');
       const storage = ruta[1];
-      console.log(file)
       switch (storage) {
         case 'storage':
           return this.$config.urlBack + file

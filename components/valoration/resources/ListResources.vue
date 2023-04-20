@@ -19,8 +19,30 @@
         LISTA DE CUESTIONARIOS
       ======================================-->
       <div class="mt-4">
-        <p><span class="font-weight-bold">2.</span> Selecciona uno o varios cuestionarios.</p>
+        <p><span class="font-weight-bold">2.</span> Selecciona uno o varios cuestionarios. <span class="text-danger">*</span></p>
         <Questionnaires/>
+      </div>
+
+      <!--=====================================
+       LISTA DE RECURSOS DE VIDEO
+     ======================================-->
+      <div class="mt-2">
+        <p><span class="font-weight-bold">3.</span> Selecciona uno o varios videos. <span class="text-danger">*</span></p>
+        <ResourcesVideos/>
+      </div>
+      <hr>
+      <!--=====================================
+       MENSAJE DEL DOCTOR
+     ======================================-->
+      <div class="mt-2">
+        <p>Deja un mensaje o un descripción de este recurso.</p>
+        <textarea
+          v-model="$store.state.resources.resources.description"
+          class="form-control"
+          id="exampleFormControlTextarea1"
+          rows="4"
+          placeholder="Mensaje..">
+        </textarea>
       </div>
 
     </div>

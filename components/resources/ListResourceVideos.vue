@@ -1,8 +1,12 @@
 <template>
   <div class="pb-2 mt-2">
+    <div class="w-50 mb-2">
+      <label for="">Buscar Video:</label>
+      <input v-model="valueSearchResourceVideo" type="text" placeholder="Buscar..." class="form-control">
+    </div>
     <div class="row">
-      <div class="col-12 col-md-4 col-lg-4" v-for="(video, index) in videos" :key="index">
-        <CardResource :folderId="folderId"  :resource="video"/>
+      <div :class="`col-12 col-md-${cols} col-lg-${cols}`" v-for="(video, index) in videosFilter" :key="index">
+          <CardResource :folderId="folderId"  :resource="video" :selected="selected"/>
       </div>
     </div>
     <div v-if="$store.state.addVideoFolder.dataLoading" class="d-flex h-100 justify-content-center align-items-center">
@@ -16,11 +20,21 @@ import {cloneDeep} from 'lodash'
 
 export default {
   name: "ListResourceVideos",
-
-  props: ['folderId'],
+  props: ['folderId', 'cols', 'selected'],
+  data(){
+    return{
+      valueSearchResourceVideo: String()
+    }
+  },
   computed: {
     videos() {
       return cloneDeep(this.$store.getters['listVideosResourceFolder'])
+    },
+    videosFilter() {
+      if (this.valueSearchResourceVideo) {
+        return this.videos.filter(video => video.resources_folder_content.name.toLowerCase().includes(this.valueSearchResourceVideo.toLowerCase()))
+      }
+      return this.videos
     }
   },
   async beforeMount() {

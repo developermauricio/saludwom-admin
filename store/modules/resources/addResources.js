@@ -2,7 +2,9 @@ export const state = () => ({
   resources: {
     valuation: null,
     touchData: false,
-    selectedQuestionnaires: []
+    selectedQuestionnaires: [],
+    selectedResourceVideo: [],
+    description: String()
   },
 })
 
@@ -15,16 +17,34 @@ export const mutations = {
     state.resources.touchData = data
 
   },
-  SET_SELECTED_QUESTIONNAIRE(state, question){
-    const indexQuestion = state.resources.selectedQuestionnaires.findIndex((item) =>{return item.id === question.id})
+  SET_SELECTED_QUESTIONNAIRE(state, question) {
+    const indexQuestion = state.resources.selectedQuestionnaires.findIndex((item) => {
+      return item.id === question.id
+    })
     if (indexQuestion !== -1) {
       state.resources.selectedQuestionnaires.splice(indexQuestion, 1)
     } else {
       state.resources.selectedQuestionnaires.push(question)
     }
   },
-  CLEAR_SELECTED_QUESTION (state) {
+  SET_SELECTED_RESOURCE_VIDEO(state, video) {
+    const indexResource = state.resources.selectedResourceVideo.findIndex((item) => {
+      return item.id === video.id
+    })
+    console.log(indexResource)
+    if (indexResource !== -1) {
+      state.resources.selectedResourceVideo.splice(indexResource, 1)
+    } else {
+      state.resources.selectedResourceVideo.push(video)
+    }
+  },
+  CLEAR_DATA(state) {
     state.resources.selectedQuestionnaires = []
+    state.resources.valuation = null
+    state.resources.touchData = false
+    state.resources.selectedQuestionnaires = []
+    state.resources.selectedResourceVideo = []
+    state.resources.description = ''
   }
 }
 // export const getters = {}
@@ -35,26 +55,42 @@ export const actions = {
   assignTouchData({commit, state}, data) {
     commit('SET_TOUCH_DATA', data)
   },
-  selectedQuestionnaire({commit, state}, question) {
-    const selectedIndex = state.resources.selectedQuestionnaires.indexOf(question)
-    if (selectedIndex === -1) {
-      commit('SET_SELECTED_QUESTIONNAIRE', question)
-    } else {
-      commit('SET_REMOVE_SELECTED_QUESTIONNAIRE', selectedIndex)
-    }
+  clearData({commit, state}) {
+    commit('CLEAR_DATA')
   },
-  isSelectedQuestionnaire({commit, state}, question) {
-    // state.resources.selectedQuestionnaires.map(item=>{
-    //   if (item.id === question.id){
-    //     console.log('entro')
-    //     return 'selected'
-    //   }else{
-    //     return ''
-    //   }
-    // })
-    // return 'selected'
-    // console.log(question)
-    // console.log(state.resources.selectedQuestionnaires)
-      return state.resources.selectedQuestionnaires.includes(question)
+  async addResource({commit, state}) {
+    let errorMessage = ''
+    let resp
+    if (!state.resources.valuation) {
+      errorMessage = 'La valoración es obligatoria. ';
+    }
+    if (state.resources.selectedQuestionnaires.length === 0) {
+      errorMessage = 'Debe seleccionar al menos un cuestionario. ';
+    }
+    if (state.resources.selectedResourceVideo.length === 0) {
+      errorMessage = 'Debe seleccionar al menos un video. ';
+    }
+
+    if (errorMessage) {
+      return errorMessage
+    }
+    console.log(state.resources.valuation)
+    return
+    try {
+      resp = await this.$axios.post(
+        `/api/v1/add-resource-valoration/${state.resources.valuation}`,
+        state.resources
+      )
+      if (resp.status === 200 || resp.status === 204) {
+        return resp = true
+      } else {
+        return resp = false
+      }
+
+    } catch (e) {
+      // this.$toast.error('Error al agregar el video.');
+      console.log('ERROR', e)
+      return resp = false
+    }
   }
 }

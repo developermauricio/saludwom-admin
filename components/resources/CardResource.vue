@@ -18,8 +18,7 @@
           <div @click="openResource(resource)">
             <a href="#" class="card-text file-name mb-0">{{ resource.resources_folder_content.name }}</a>
           </div>
-          <div class="d-flex justify-content-between">
-
+          <div class="d-flex justify-content-between" v-if="!selected">
             <div>
               <a href="#" id="dropdownMenuCardResource" data-bs-toggle="dropdown" aria-expanded="false">
                 <div v-html="$feathericons['more-vertical'].toSvg()"></div>
@@ -34,17 +33,22 @@
           <!--        <p class="card-text file-date">01 may 2019</p>-->
         </div>
         <small class="file-accessed">{{ resource.resources_folder_content.description | truncate(20) }}</small>
-        <div class="mt-2">
-          <div>
-            <div v-for="(treatment, index) in resource.resources_folder_content.treatments" :key="index">
-              <!--            <span class="badge bg-primary ml-1 mt-1">{{ treatment.treatment }}</span>-->
-              <ul class="m-0">
-                <li>
-                  <p class="font-italic text-muted m-0" style="font-size: 12px">{{ treatment.treatment }}. </p>
-                </li>
-              </ul>
+<!--        <div class="mt-2">-->
+<!--          <div>-->
+<!--            <div v-for="(treatment, index) in resource.resources_folder_content.treatments" :key="index">-->
+<!--              &lt;!&ndash;            <span class="badge bg-primary ml-1 mt-1">{{ treatment.treatment }}</span>&ndash;&gt;-->
+<!--              <ul class="m-0">-->
+<!--                <li>-->
+<!--                  <p class="font-italic text-muted m-0" style="font-size: 12px">{{ treatment.treatment }}. </p>-->
+<!--                </li>-->
+<!--              </ul>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+        <div v-if="selected === true" class="mt-2">
+            <div>
+              <button  :class="`btn btn-${isSelected(resource) ? 'success':'primary'} btn-sm float-right`" @click="selectedResource(resource)">{{ isSelected(resource) ? 'Seleccionado' : 'Seleccionar' }}</button>
             </div>
-          </div>
         </div>
       </div>
 
@@ -57,13 +61,22 @@
 
 import PreviewResource from "./PreviewResource";
 import AddFormResource from "./AddFormResource";
+import {mapState} from "vuex";
 
 export default {
   name: "CardResource",
-  props: ['resource', 'folderId'],
+  props: ['resource', 'folderId', 'selected'],
+  computed: {
+    ...mapState(['resources']),
+    isSelected() {
+      return resource => this.resources.resources.selectedResourceVideo.find((item) =>{return resource.id === item.id})
+    },
+  },
   methods: {
+    selectedResource(resource){
+      this.$store.commit('SET_SELECTED_RESOURCE_VIDEO', resource)
+    },
     openResource(resource) {
-      console.log(resource)
       this.$FModal.show(
         {
           component: PreviewResource,

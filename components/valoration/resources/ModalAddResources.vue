@@ -50,15 +50,21 @@
         <vs-tabs alignment="center" color="#792141">
           <vs-tab label="Recursos">
             <div>
-                <ListResources/>
+              <ListResources/>
             </div>
           </vs-tab>
           <vs-tab label="Vista Previa">
             <div>
-                <PreviewResource/>
+              <PreviewResource/>
             </div>
           </vs-tab>
         </vs-tabs>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-12 d-flex justify-content-end">
+        <button class="btn btn-secondary mx-1" @click="closeModal">Cancelar</button>
+        <button class="btn btn-primary" @click="addResource">Agregar Recurso</button>
       </div>
     </div>
   </div>
@@ -70,6 +76,18 @@ export default {
   props: ['valoration'],
   async beforeMount() {
     await this.$store.dispatch('assignValoration', this.valoration.id)
+  },
+  methods: {
+    async addResource() {
+     let resultValidation = await this.$store.dispatch('addResource')
+      if (resultValidation){
+        this.$toast.error(resultValidation);
+      }
+    },
+    async closeModal() {
+      await this.$store.dispatch('clearData')
+      this.$FModal.hide()
+    },
   }
 }
 </script>
