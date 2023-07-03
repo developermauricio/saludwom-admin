@@ -71,18 +71,44 @@
 </template>
 
 <script>
+import {bus} from "../../../plugins/bus";
+
 export default {
   name: "ModalAddResources",
   props: ['valoration'],
   async beforeMount() {
     await this.$store.dispatch('assignValoration', this.valoration.id)
+    await this.$store.dispatch('assignDoctorId', this.valoration.doctor_id)
+    await this.$store.dispatch('assignPatientId', this.valoration.patient.user_id)
   },
   methods: {
     async addResource() {
-     let resultValidation = await this.$store.dispatch('addResource')
-      if (resultValidation){
-        this.$toast.error(resultValidation);
-      }
+      this.$swal.fire(
+        {
+          title: '¿Estas seguro de agregar el recurso?',
+          icon: 'warning',
+          confirmButtonText: 'Estoy seguro',
+          cancelButtonText: 'Cancelar',
+          customClass: {
+            confirmButton: 'btn btn-primary mx-1',
+            cancelButton: 'btn btn-secondary'
+          },
+          buttonsStyling: false,
+          showCancelButton: true,
+          reverseButtons: true,
+          allowOutsideClick: false,
+        }
+      ).then(async result => {
+        if (result.value) {
+          this.$vs.loading({
+            color: this.$config.colorLoading,
+            text: 'Espere por favor...'
+          })
+          await this.$store.dispatch('addResource')
+          bus.$emit('tabResources', 1)
+          this.$vs.loading.close()
+        }
+      })
     },
     async closeModal() {
       await this.$store.dispatch('clearData')

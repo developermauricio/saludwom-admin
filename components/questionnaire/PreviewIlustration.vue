@@ -1,7 +1,6 @@
 <template>
-  <div class="p-3 text-center">
-    <h3>{{ question.question }}</h3>
-    <img :src="question.illustration?.urlResized ? question.illustration.urlResized : $config.urlBack+question.illustration" alt="" style="width: 100%; height: 100%">
+  <div class="p-3 text-center" v-if="question">
+    <img :src="question.illustration.urlResized ? question.illustration.urlResized : $config.urlBack+question.illustration" alt="" style="width: 100%; height: 100%">
   </div>
 </template>
 

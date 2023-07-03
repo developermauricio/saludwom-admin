@@ -62,7 +62,7 @@
         >Iframe Video <span class="text-danger">*</span>
         </label>
         <textarea rows="3" class="form-control" :class="{ 'is-invalid': $v.pathVideo.$error }" v-model="pathVideo"
-                  placeholder="Url video"></textarea>
+                  placeholder="Iframe video"></textarea>
         <p class="text-danger font-weight-bold" v-if="$v.pathVideo.$error">El link del video es requerido, o ingrese un
           link válido.</p>
       </div>

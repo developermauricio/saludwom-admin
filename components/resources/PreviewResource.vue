@@ -22,7 +22,8 @@
 
       <!--     <iframe :src="'https://docs.google.com/viewer?url='+$config.urlBack+resource.path_file+'&embedded=true'" style="border: none; width: 100%; height: 50rem"></iframe>-->
     </div>
-    <div v-if="resource.type_file === 'iframe' || resource.type_file === 'mov' || resource.type_file === 'mp4' || resource.type_file === 'wmv' || resource.type_file === 'avi'">
+    <div
+      v-if="resource.type_file === 'iframe' || resource.type_file === 'mov' || resource.type_file === 'mp4' || resource.type_file === 'wmv' || resource.type_file === 'avi'">
       <div v-if="pathVideo(resource.path_file)">
         <video class="w-100" controls :src="file(resource)" style="height: 50%"></video>
       </div>
@@ -43,23 +44,30 @@
       </div>
       <p class="text-justify mt-2">{{ resource.resources_folder_content.description }}</p>
     </div>
-    <div class="my-2">
-      <div v-for="(treatment, index) in resource.resources_folder_content.treatments" :key="index">
-        <!--            <span class="badge bg-primary ml-1 mt-1">{{ treatment.treatment }}</span>-->
-        <ul class="m-0">
-          <li>
-            <p class="font-italic text-muted m-0" style="font-size: 12px">{{ treatment.treatment }}. </p>
-          </li>
-        </ul>
-      </div>
-    </div>
+        <div class="my-2">
+          <div v-for="(treatment, index) in resource.resources_folder_content.treatments" :key="index">
+            <!--            <span class="badge bg-primary ml-1 mt-1">{{ treatment.treatment }}</span>-->
+            <ul class="m-0">
+              <li>
+                <p class="font-italic text-muted m-0" style="font-size: 12px">{{ treatment.treatment }}. </p>
+              </li>
+            </ul>
+          </div>
+        </div>
   </div>
 </template>
 
 <script>
+import Vue from "vue";
+
 export default {
   name: "PreviewResource",
-  props: ['resource'],
+  props: ['dataResource', 'resourceFolder'],
+  data() {
+    return {
+      resource: null
+    }
+  },
   methods: {
     file(file) {
       switch (file.storage) {
@@ -89,6 +97,25 @@ export default {
         case '':
           return false
       }
+    }
+  },
+  beforeMount() {
+    console.log('ENTRO AL BEFORE ', this.dataResource)
+    // this.resource.type_file = this.dataResource.type_file
+    // this.resource.path_file = this.dataResource.path_file
+    // this.resource.resources_folder_content.name = this.dataResource.path_file
+    if (this.resourceFolder){
+      this.resource = this.resourceFolder
+    }
+
+    if (this.dataResource) {
+      this.resource = this.dataResource.archive
+      let newObject = {
+        name: this.dataResource.name,
+        state: this.dataResource.state,
+        description: this.dataResource.description
+      }
+      Vue.set(this.resource, 'resources_folder_content', newObject)
     }
   }
 }

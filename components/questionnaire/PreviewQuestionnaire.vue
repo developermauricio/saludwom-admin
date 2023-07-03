@@ -33,41 +33,41 @@
             </div>
             <div class="w-100">
               <!-- Campo tipo number-->
-              <div v-if="question.type.name === 'number'" class="mb-2">
+              <div v-if="question.type_question.name === 'number'" class="mb-2">
                 <label class="form-label" for="exampleFormControlTextarea1">{{ question.question }} <span
                   v-if="question.required" class="text-danger">*</span><a class="ml-2" v-if="question.ilustration || question.illustration" @click="previewIlustration(question)" href="#">Ilustración</a></label>
-                <input class="form-control" type="number" min="0">
+                <input :disabled="$store.state.app.questionnaire.solved" class="form-control" type="number" min="0" v-model="question.value">
               </div>
               <!-- Campo tipo input-->
-              <div v-if="question.type.name === 'input'" class="mb-2">
+              <div v-if="question.type_question.name === 'input'" class="mb-2">
                 <label class="form-label" for="exampleFormControlTextarea1">{{ question.question }} <span
                   v-if="question.required" class="text-danger">*</span><a class="ml-2" v-if="question.ilustration || question.illustration" @click="previewIlustration(question)" href="#">Ilustración</a></label>
-                <input class="form-control w-100">
+                <input :disabled="$store.state.app.questionnaire.solved" class="form-control w-100" v-model="question.value">
               </div>
               <!-- Campo tipo textarea-->
-              <div v-if="question.type.name === 'textarea'" class="mb-2">
+              <div v-if="question.type_question.name === 'textarea'" class="mb-2">
                 <label class="form-label" for="exampleFormControlTextarea1">{{ question.question }} <span
                   v-if="question.required" class="text-danger">*</span><a class="ml-2" v-if="question.ilustration || question.illustration" @click="previewIlustration(question)" href="#">Ilustración</a></label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                <textarea :disabled="$store.state.app.questionnaire.solved" class="form-control" id="exampleFormControlTextarea1" rows="3" v-model="question.value"></textarea>
               </div>
               <!-- Campo tipo select-->
-              <div v-if="question.type.name === 'select'" class="mb-2">
+              <div v-if="question.type_question.name === 'select'" class="mb-2">
                 <label class="form-label" for="exampleFormControlTextarea1">{{ question.question }} <span
                   class="text-danger" v-if="question.required">*</span><a class="ml-2" v-if="question.ilustration || question.illustration" @click="previewIlustration(question)" href="#">Ilustración</a></label>
-                <select class="form-select" id="basicSelect">
+                <select :disabled="$store.state.app.questionnaire.solved" class="form-select" id="basicSelect" v-model="question.value">
                   <option value="">Selecciona</option>
-                  <option v-for="(option, index) in question.options" :key="index">
+                  <option v-for="(option, index) in jsonParse(question)" :key="index">
                     {{ option.option }}
                   </option>
                 </select>
               </div>
               <!-- Campo tipo checkbox-->
-              <div v-if="question.type.name === 'checkbox'" class="mb-2">
+              <div v-if="question.type_question.name === 'checkbox'" class="mb-2">
                 <label class="form-label" for="exampleFormControlTextarea1">{{ question.question }} <span
                   class="text-danger" v-if="question.required">*</span><a class="ml-2" v-if="question.ilustration || question.illustration" @click="previewIlustration(question)" href="#">Ilustración</a></label>
-                <div class="form-check form-check-danger mb-1" v-for="(option, index) in question.options"
-                     :key="index">
-                  <input type="checkbox" class="form-check-input" id="colorCheck5">
+<!--                <div class="form-check form-check-danger mb-1" v-for="(option, index) in JSON.parse(question.options)" :key="index">-->
+                <div class="form-check form-check-danger mb-1" v-for="(option, index) in jsonParse(question)" :key="index">
+                  <input :disabled="$store.state.app.questionnaire.solved" type="checkbox" class="form-check-input" :value="option" id="colorCheck5" v-model="question.value">
                   <label class="form-check-label" for="colorCheck5">{{ option.option }}</label>
                 </div>
               </div>
@@ -93,7 +93,16 @@ export default {
     draggable
   },
   name: "PreviewQuestionnaire",
+
   methods:{
+    jsonParse(question){
+      try {
+        const parsedOptions = JSON.parse(question.options)
+        return Array.isArray(parsedOptions) ? JSON.parse(question.options): ''
+      } catch (error) {
+        return question.options
+      }
+    },
     previewIlustration(question){
       this.$FModal.show(
         {

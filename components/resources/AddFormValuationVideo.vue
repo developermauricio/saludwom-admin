@@ -35,6 +35,7 @@
             :custom-label="nameSelect"
             track-by="id"
             :multiple="true"
+            @remove="removeTreatment"
             selectedLabel="Seleccionado"
             deselectLabel=""
             selectLabel="Selecciona"
@@ -89,6 +90,7 @@ export default {
         state: null,
         description: String(),
         treatments: [],
+        deleteTreatments: [],
         folderId: this.folderId
       }
     }
@@ -102,6 +104,13 @@ export default {
     }
   },
   methods: {
+    removeTreatment(treatment){
+       if (this.form.deleteTreatments && typeof this.form.deleteTreatments[Symbol.iterator] === 'function'){
+         this.form.deleteTreatments = [...this.form.deleteTreatments, treatment]
+       }else{
+         this.form.deleteTreatments = [treatment]
+       }
+    },
     updateVideo() {
       this.validateForm()
       if (this.validation) return
@@ -151,6 +160,7 @@ export default {
       form.append('typeFile', this.form.pathFileType)
       form.append('pathFileIframeUrl', this.form.pathFileUrl)
       form.append('treatments', JSON.stringify(this.form.treatments))
+      form.append('deleteTreatments', JSON.stringify(this.form.deleteTreatments))
       form.append('folderId', this.form.folderId)
       if (this.video) {
         form.append('fileId', this.video.id)

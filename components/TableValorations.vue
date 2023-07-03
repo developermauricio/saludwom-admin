@@ -30,6 +30,18 @@
           ></vue-ctk-date-time-picker>
         </div>
         <!--=====================================
+             FILTRAR DOCTOR
+        ======================================-->
+        <div class="mr-3  mt-1 px-1 m-md-0 m-lg-0" v-if="$auth.user.roles[0].name === 'Admin'">
+          <label class="form-label" for="basicSelect">Filtrar por Esp.</label>
+          <select v-model="filters.valueDoctor" class="form-select" id="basicSelect">
+            <option value="">Mostrar todos</option>
+            <option v-for="(doctor, index) in doctors" :key="doctor.id" :value="doctor.id">
+              {{ doctor.user.name }}  {{ doctor.user.last_name }}
+            </option>
+          </select>
+        </div>
+        <!--=====================================
             FILTRAR POR TIPO
        ======================================-->
         <div class="mr-3 mt-1 px-1 m-md-0 m-lg-0">
@@ -71,8 +83,9 @@
          BUSCAR PACIENTE
        ======================================-->
         <div class="mr-4 mt-1 px-1 m-md-0 m-lg-0">
-          <label class="form-label">Buscar por nombre, correo o documento</label>
-          <input v-model="valueSearchValoration" v-on:keyup.enter="search" type="text" class="form-control search-patients" placeholder="Buscar...">
+          <label class="form-label">Buscar</label>
+          <input v-model="valueSearchValoration" v-on:keyup.enter="search" type="text"
+                 class="form-control search-patients" placeholder="Buscar...">
         </div>
       </div>
       <div class="card-body">
@@ -120,11 +133,13 @@ export default {
     return {
       timezoneUser: null,
       genders: [],
+      doctors: [],
       plans: [],
       filters: {
         valueGender: null,
         valuePlan: null,
-        valueState: null
+        valueState: null,
+        valueDoctor: null,
       },
       dateFilter: null,
       calendarIsDark: false,
@@ -153,7 +168,7 @@ export default {
         bodyRowEvents: ({row, rowIndex}) => {
           return {
             dblclick: (event) => {
-              this.$router.push({ path: `/objetivos/${row.valoration_slug}`})
+              this.$router.push({path: `/objetivos/${row.valoration_slug}`})
             },
           };
         },
@@ -178,13 +193,13 @@ export default {
           width: "5%",
           align: "center",
         },
-        {field: "valoration_name", key: "valoration_name", title: "Nombre Objetivo", align: "left", width: "18%"},
+        {field: "valoration_name", key: "valoration_name", title: "Nombre Objetivo", align: "left", width: "25%"},
         {
           field: "name",
           key: "name",
           title: "Nombre Paciente",
           align: "left",
-          width: "25%",
+          width: "50%",
           renderBodyCell: ({row, column, rowIndex}, h) => {
             return <div class="d-flex align-items-center">
               <div class="mr-2 d-flex">
@@ -205,7 +220,7 @@ export default {
           },
         },
         {
-          field: "valoration_state", key: "valoration_state", title: "Estado", align: "center", width: "20%",
+          field: "valoration_state", key: "valoration_state", title: "Estado", align: "center", width: "30%",
           renderBodyCell: ({row, column, rowIndex}, h) => {
             switch (row.valoration_state) {
               case '1':
@@ -221,18 +236,25 @@ export default {
             }
           },
         },
-        {field: "gender", key: "gender", title: "Género", align: "center", width: "10%"},
-        {field: "age", sortBy: "", key: "age", title: "Edad", align: "center", width: "8%"},
-        {field: "valoration_suscription", key: "valoration_suscription", title: "Suscripción", align: "center", width: "10%"},
-        {field: "document", key: "document", title: "Documento Paciente", align: "center", width: "10%"},
+        {field: "gender", key: "gender", title: "Género", align: "center", width: "15%"},
+        {field: "age", sortBy: "", key: "age", title: "Edad", align: "center", width: "10%"},
+        {
+          field: "valoration_suscription",
+          key: "valoration_suscription",
+          title: "Suscripción",
+          align: "center",
+          width: "15%"
+        },
+        {field: "document", key: "document", title: "Documento", align: "center", width: "25%"},
+        {field: "doctor", key: "doctor", title: "Especialista", align: "center", width: "25%"},
         {
           field: "valoration_created_at",
           key: "valoration_created_at",
           title: "Fecha Registro",
           align: "left",
-          width: "10%",
+          width: "20%",
           renderBodyCell: ({row, column, rowIndex}, h) => {
-            return this.$moment(row.valuation_created_at ).tz(this.timezoneUser).format('DD MMMM YYYY')
+            return this.$moment(row.valoration_created_at).format('DD MMMM YYYY')
           },
         },
 
@@ -252,7 +274,7 @@ export default {
         this.genders = resp.data.data
       }).catch(e => {
         console.log(e)
-        this.$toast.error("Al obtener los géneros. Consulte a soporte SaludWom.");
+        this.$toast.error("Error al obtener los géneros. Consulte a soporte SaludWom.");
       })
     },
     getPlans() {
@@ -261,6 +283,14 @@ export default {
       }).catch(e => {
         console.log(e)
         this.$toast.error("Al obtener los planes. Consulte a soporte SaludWom.");
+      })
+    },
+    getDoctors() {
+      this.$axios.get('/api/v1/get-doctors').then(resp => {
+        this.doctors = resp.data.data
+      }).catch(e => {
+        console.log(e)
+        this.$toast.error("Error al obtener los planes. Consulte a soporte SaludWom.");
       })
     },
     search() {
@@ -310,7 +340,7 @@ export default {
       this.pageSize = pageSize;
     },
     filterCalendar() {
-      if (this.dateFilter){
+      if (this.dateFilter) {
         let dateStart = this.dateFilter.start
         let dateEnd = this.dateFilter.end
         if (dateStart && dateEnd) {
@@ -319,7 +349,7 @@ export default {
         } else {
           this.$toast.error("No se pudo filtrar. Tenga en cuenta seleccionar la fecha final.");
         }
-      }else{
+      } else {
         this.$toast.error("Selecciona un rango de fecha.");
       }
     },
@@ -376,7 +406,7 @@ export default {
         this.dateFilter = null
         // this.selectedStudents = []
         this.$emit('datefilterNull')
-        setTimeout(() =>{
+        setTimeout(() => {
           this.$emit('updateGetPatients')
         }, 250)
 
@@ -400,8 +430,9 @@ export default {
     },
   },
   mounted() {
-    this.getGenders();
-    this.getPlans();
+    this.getGenders()
+    this.getPlans()
+    this.getDoctors()
   },
   created() {
     this.timezoneUser = Intl.DateTimeFormat().resolvedOptions().timeZone

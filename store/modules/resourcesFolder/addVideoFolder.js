@@ -1,14 +1,13 @@
 export const state = () => ({
   videos: [],
   dataLoading: false,
-
   currentVideo: '',
 })
 
 export const mutations = {
   SET_VIDEOS_RESOURCE_FOLDER(state, data) {
-    if (data.length > 0) {
-      state.videos = data
+    if (data) {
+      state.videos.push(data)
       state.dataLoading = false
     } else {
       state.dataLoading = true
@@ -24,8 +23,15 @@ export const actions = {
 
   getVideosResourceFolder({commit, state}, folderId) {
     this.$axios.$get(`/api/v1/get-files-resource-to-folder/${folderId}`).then(resp => {
-      commit('SET_VIDEOS_RESOURCE_FOLDER', resp.data)
-      console.log(resp)
+      state.videos = []
+      console.log('VIDES RESOURCE ', resp.data)
+      resp.data.forEach(item =>{
+        if (item.state === '1'){
+          commit('SET_VIDEOS_RESOURCE_FOLDER', item)
+        }
+      })
+
+
     }).catch(e => {
       console.log('ERROR ', e)
       this.$toast.error('Error al obtener los videos.');
@@ -55,8 +61,6 @@ export const actions = {
   },
   async updateVideo({commit, state, dispatch}, {form, id}) {
     let resp
-    console.log('DATA', form)
-    console.log('ID', id)
     try {
       resp = await this.$axios.post(
         `/api/v1/update-resource-folder/${id}`,

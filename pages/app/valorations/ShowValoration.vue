@@ -11,7 +11,7 @@
               <h1 class="content-header-title  mb-0">Detalle Objetivo</h1>
             </div>
         <!--   Botones   -->
-            <div>
+            <div v-if="$auth.user.roles[0].name === 'Doctor'">
               <button class="btn btn-primary btn-sm mr-4" @click="addResources()">Asignar Recursos</button>
 <!--              <button class="btn btn-warning mr-4">Asignar Tratamiento</button>-->
 <!--              <button class="btn btn-info mr-4">Informe Médico</button>-->
@@ -27,15 +27,15 @@
         </div>
         <!--    Sección tabs    -->
         <div>
-          <vs-tabs color="#D85C72" alignment="fixed" class="tabs-objective">
+          <vs-tabs :value="valueTabPosition" color="#D85C72" alignment="fixed" class="tabs-objective">
             <vs-tab label="Objetivo">
               <div class="pt-2">
                 <Information :valuation="valuation"/>
               </div>
             </vs-tab>
             <vs-tab label="Recursos">
-              <div>
-                <h2>Recursos</h2>
+              <div class="pt-2">
+                <Resources :valuation="valuation"></Resources>
               </div>
             </vs-tab>
             <vs-tab label="Tratamiento">
@@ -54,11 +54,15 @@
 
 <script>
 import ModalAddResources from "../../../components/valoration/resources/ModalAddResources";
+import {bus} from "../../../plugins/bus";
+import Resources from "../../../components/valoration/Resources";
 
 export default {
   name: "ShowValoration",
+  components: {Resources},
   data(){
     return{
+      valueTabPosition: 0,
       valuation: {
         doctor:{user:{}},
         patient:{
@@ -98,6 +102,9 @@ export default {
     }
   },
   mounted() {
+    bus.$on('tabResources', (data) =>{
+      this.valueTabPosition = data
+    })
     this.getValuation()
   }
 }

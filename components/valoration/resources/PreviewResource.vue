@@ -1,9 +1,10 @@
 <template>
   <div>
-    <h4>Recursos</h4>
-
     <div>
       <!-- LOCALIZA TU DOLOR -->
+      <div v-if="$store.state.resources.resources.touchData === false && $store.state.resources.resources.selectedQuestionnaires.length === 0 && $store.state.resources.resources.selectedResourceVideo.length === 0">
+          <h5 class="text-center mt-2 text-muted">No hay recursos asignados</h5>
+      </div>
       <div class="mt-2" v-if="$store.state.resources.resources.touchData">
         <p><span class="font-weight-bold"></span>Localiza tu dolor.</p>
         <div class="px-5 mt-2">

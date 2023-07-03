@@ -1,7 +1,9 @@
 <template>
   <div class="p-3">
     <div class="d-flex justify-content-between">
-      <h2 class="mb-2" v-role="'Admin'">Actualizar Cuestionario <span class="text-primary">"{{ questionnaire.name }}"</span></h2>
+      <h2 class="mb-2" v-role="'Admin'">Actualizar Cuestionario <span class="text-primary">"{{
+          questionnaire.name
+        }}"</span></h2>
       <h2 class="mb-2" v-role="'Doctor'"><span class="text-primary">"{{ questionnaire.name }}"</span></h2>
       <div class="pl-5" v-role="'Admin'">
         <a href="#" @click="updateState()"><span
@@ -48,6 +50,7 @@
               :multiple="true"
               selectedLabel="Seleccionado"
               deselectLabel=""
+              @remove="removeTreatment"
               selectLabel="Selecciona"
               :show-labels="true"
               placeholder="Buscar tratamiento..."></multiselect>
@@ -67,7 +70,7 @@
     <!--=====================================
        LISTA Y PREVIEW DEL CUESTIONARIO
    ======================================-->
-    <ListQuestionsQuestionnaires :questions="questionnaire.questions"/>
+      <ListQuestionsQuestionnaires :questions="questionnaire.questions" :questionnaire="questionnaire"/>
     <!--=====================================
        FOOTER
    ======================================-->
@@ -107,8 +110,21 @@ export default {
       treatments: {required},
     }
   },
-
+  beforeMount() {
+    this.$store.commit('SET_SOLVED_QUESTIONNAIRE', this.questionnaire.solved)
+    setTimeout(() => {
+      //Datos de entrada del formulario
+      this.form.nameQuestionnaire = this.questionnaire.name
+      this.form.descriptionQuestionnaire = this.questionnaire.description
+      this.form.treatments = this.questionnaire.treatments
+      //Datos de las preguntas
+      this.$store.state.app.questionnaire.questions = this.questionnaire.questions
+    }, 100)
+  },
   methods: {
+    removeTreatment(treatment){
+      this.$store.commit('SED_ADD_DELETE_TREATMENTS_IN_QUESTIONNAIRE', treatment)
+    },
     updateQuestionnaire() {
       this.$v.form.$touch();
       if (this.$v.$invalid) {
@@ -207,16 +223,7 @@ export default {
       })
     }
   },
-  created() {
-    setTimeout(() => {
-      //Datos de entrada del formulario
-      this.form.nameQuestionnaire = this.questionnaire.name
-      this.form.descriptionQuestionnaire = this.questionnaire.description
-      this.form.treatments = this.questionnaire.treatments
-      //Datos de las preguntas
-      this.$store.state.app.questionnaire.questions = this.questionnaire.questions
-    }, 100)
-  },
+
   mounted() {
     this.getTreatments()
   },

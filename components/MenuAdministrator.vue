@@ -24,6 +24,10 @@
       <div class="shadow-bottom"></div>
       <div class="main-menu-content mt-4">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+
+          <!--=====================================
+            PANEL DE CONTROL
+            ======================================-->
           <li :class="this.currentUrl === '/panel-control' ? 'active' :''" class=" nav-item">
             <a @click="goTo('/panel-control')" class="d-flex align-items-center menu-principal">
               <div v-html="$feathericons['home'].toSvg()"></div>
@@ -37,7 +41,11 @@
             <span data-i18n="Apps &amp; Pages">Menú Principal</span>
             <!--            <div v-html="$feathericons['more-horizontal'].toSvg()"></div>-->
           </li>
-          <li :class="this.currentUrl === '/pacientes' ? 'active' :''" class=" nav-item">
+
+          <!--=====================================
+            MENU PACIENTES
+            ======================================-->
+          <li :class="this.currentUrl === '/pacientes' ? 'active' :''" class=" nav-item" v-role="'Admin'">
             <a @click="goTo('/pacientes')" class="d-flex align-items-center menu-principal">
               <div v-html="$feathericons['users'].toSvg()"></div>
               <div class="content-title-text">
@@ -45,6 +53,31 @@
               </div>
             </a>
           </li>
+          <!--=====================================
+            MENU OBJETIVOS
+            ======================================-->
+          <li :class="this.currentUrl === '/objetivos' ? 'active' :''" class=" nav-item">
+            <a @click="goTo('/objetivos')" class="d-flex align-items-center menu-principal">
+              <div v-html="$feathericons['zap'].toSvg()"></div>
+              <div class="content-title-text">
+                <span class="menu-title text-truncate">Objetivos</span>
+              </div>
+            </a>
+          </li>
+          <!--=====================================
+            MENU DOCTORES
+            ======================================-->
+          <li :class="this.currentUrl === '/doctores' ? 'active' :''" class=" nav-item"  v-role="'Admin'">
+            <a @click="goTo('/doctores')" class="d-flex align-items-center menu-principal">
+              <div v-html="$feathericons['users'].toSvg()"></div>
+              <div class="content-title-text">
+                <span class="menu-title text-truncate">Doctores</span>
+              </div>
+            </a>
+          </li>
+          <!--=====================================
+            MENU CUESTIONARIOS
+            ======================================-->
           <li :class="this.currentUrl === '/cuestionarios' ? 'active' :''" class=" nav-item">
             <a @click="goTo('/cuestionarios')" class="d-flex align-items-center menu-principal">
               <div v-html="$feathericons['file-text'].toSvg()"></div>
@@ -53,6 +86,9 @@
               </div>
             </a>
           </li>
+          <!--=====================================
+            MENU RECURSOS
+            ======================================-->
           <li :class="this.currentUrl === '/recursos' ? 'active' :''" class=" nav-item">
             <a @click="goTo('/recursos')" class="d-flex align-items-center menu-principal">
               <div v-html="$feathericons['paperclip'].toSvg()"></div>

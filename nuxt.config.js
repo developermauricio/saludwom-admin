@@ -121,7 +121,9 @@ export default {
       '~/components/valoration',
       '~/components/resources',
       '~/components/questionnaire',
+      '~/components/admin/doctors',
       '~/components/admin/patients',
+      '~/components/admin/valorations',
       '~/components/doctor/patients',
       '~/components/doctor/valorations',
       '~/components/valoration/resources'

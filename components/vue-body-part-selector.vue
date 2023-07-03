@@ -358,10 +358,14 @@ export default /*#__PURE__*/{
   name: 'VueBodyPartSelector', // vue component name
   data() {
     return {
-      selection: []
+      // selection: []
     };
   },
   props: {
+    selection:{
+      type: Array,
+      default: []
+    },
     disabled: {
       type: Boolean,
       default: false
@@ -495,18 +499,18 @@ export default /*#__PURE__*/{
   },
   methods: {
     part_clicked(val) {
-      let b = val.target.getAttribute('id')
-      if (b && !this.disabled) {
-        if (this.multiple) {
-          if (this.selection.includes(b)) {
-            this.selection = this.selection.filter(x => x !== b)
-          } else {
-            this.selection.push(b)
-          }
-        } else {
-          this.selection = b
-        }
-      }
+      // let b = val.target.getAttribute('id')
+      // if (b && !this.disabled) {
+      //   if (this.multiple) {
+      //     if (this.selection.includes(b)) {
+      //       this.selection = this.selection.filter(x => x !== b)
+      //     } else {
+      //       this.selection.push(b)
+      //     }
+      //   } else {
+      //     this.selection = b
+      //   }
+      // }
     },
     getStyle(partName) {
       let styles = {

@@ -7,20 +7,13 @@
         <div class="content-header-left col-md-9 col-12 mb-2">
           <div class="row breadcrumbs-top">
             <div class="col-12">
-              <h1 class="content-header-title  mb-0">Objetivos</h1>
+              <h1 class="content-header-title  mb-0">Especialistas</h1>
             </div>
           </div>
         </div>
       </div>
       <div class="content-body">
-
-        <div v-if="$auth.user.roles[0].name === 'Doctor'">
-          <ValorationsDoctor />
-        </div>
-        <div v-if="$auth.user.roles[0].name === 'Admin'">
-          <ListValorations/>
-        </div>
-
+        <ListsDoctors/>
       </div>
     </div>
   </div>
@@ -28,7 +21,7 @@
 
 <script>
 export default {
-  name: "Valorations",
+  name: "Doctors",
 }
 </script>
 

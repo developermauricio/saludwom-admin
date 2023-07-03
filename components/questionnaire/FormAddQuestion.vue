@@ -13,16 +13,16 @@
       <div class="col-12 col-md-6 col-lg-6">
         <!--   Tipo     -->
         <div class="mb-1">
-          <label class="form-label" for="exampleFormControlTextarea1" :class="{ 'text-danger': $v.form.type.$error }">Tipo
+          <label class="form-label" for="exampleFormControlTextarea1" :class="{ 'text-danger': $v.form.type_question.$error }">Tipo
             <span class="text-danger">*</span> <i @click="openHelpTypeQuestion" style="cursor: pointer" v-html="$feathericons['help-circle'].toSvg()"></i></label>
-          <select class="form-select" :class="{ 'is-invalid': $v.form.type.$error }" v-model="form.type"
+          <select class="form-select" :class="{ 'is-invalid': $v.form.type_question.$error }" v-model="form.type_question"
                   id="basicSelect">
             <option value="">Selecciona</option>
             <option v-for="type in questionsTypes" :key="type.id" :value="type">
               {{ type.name }}
             </option>
           </select>
-          <p v-if="$v.form.type.$error" class="text-danger">Selecciona el tipo.</p>
+          <p v-if="$v.form.type_question.$error" class="text-danger">Selecciona el tipo.</p>
         </div>
         <!--   Pregunta requerida  -->
         <div class="d-flex justify-content-between">
@@ -37,9 +37,9 @@
         </div>
       </div>
       <!-- Agregar y listar opciones si la pregunta es de tipo select o checkbox -->
-      <div class="col-12 col-md-7 col-lg-7 mt-1" v-if="form.type.name === 'select' || form.type.name === 'checkbox'">
+      <div class="col-12 col-md-7 col-lg-7 mt-1" v-if="form.type_question.name === 'select' || form.type_question.name === 'checkbox'">
         <label class="form-label" for="exampleFormControlTextarea1">Ingresa las opciones del
-          {{ form.type.name === 'select' ? 'select' : 'checkbox' }} <span
+          {{ form.type_question.name === 'select' ? 'select' : 'checkbox' }} <span
             class="text-danger">*</span></label>
         <div class="d-flex justify-content-between">
           <input class="form-control" @keyup.enter="addOption" v-model="option" placeholder="Ingresa opción">
@@ -84,7 +84,7 @@ export default {
         options: [],
         question: '',
         illustration: null,
-        type: {
+        type_question: {
         },
         required: false,
       },
@@ -94,7 +94,7 @@ export default {
   validations: {
     form: {
       question: {required},
-      type: {required},
+      type_question: {required},
     }
   },
   methods: {
@@ -136,7 +136,7 @@ export default {
       if (this.$v.$invalid) {
         return
       }
-      if (this.form.options.length === 0 && this.form.type.name === 'select') {
+      if (this.form.options.length === 0 && this.form.type_question.name === 'select') {
         this.$toast.error("Debe agregar un valor en el campo opción.");
         return;
       }
@@ -147,7 +147,7 @@ export default {
         options: [],
         question: '',
         illustration: null,
-        type: '',
+        type_question: '',
         required: false,
       }
     },
@@ -167,7 +167,7 @@ export default {
     })
   },
   watch: {
-    'form.type': function (val) {
+    'form.type_question': function (val) {
       if (val && val.name !== 'select' || val && val.name !== 'checkbox') {
         this.form.options = []
         this.option = ''

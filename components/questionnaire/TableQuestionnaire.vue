@@ -175,8 +175,12 @@ export default {
             text: 'Espere por favor...'
           })
           this.$axios.post(`api/v1/delete-questionnaire/${row.id}`).then(resp => {
-            this.$toast.success("El cuestionario se eliminó correctamente.");
-            this.getQuestionnaire();
+            if (resp.status === 201){
+              this.$toast.error("No se puede eliminar el cuestionario, esta en uso. Consulte a soporte SaludWom.");
+            }else{
+              this.$toast.success("El cuestionario se eliminó correctamente.");
+              this.getQuestionnaire();
+            }
             this.$vs.loading.close()
           }).catch(e => {
             this.$vs.loading.close()

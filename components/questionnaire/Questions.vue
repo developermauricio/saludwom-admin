@@ -9,29 +9,41 @@
           <th>Requerido</th>
           <th>Ilustración</th>
           <th>Opciones</th>
-          <th  v-role="'Admin'">Quitar</th>
+          <th v-role="'Admin'">Quitar</th>
         </tr>
         </thead>
 
         <tbody>
         <tr v-for="(question, index) in $store.state.app.questionnaire.questions" :key="index">
           <td>{{ question.question }}</td>
-          <td>{{ question.type.name }}</td>
-          <td>{{ question.required ? 'Si' : 'No' }}</td>
-          <td class="text-center">
-            <img @click="previewIlustration(question)" v-if="question.illustration || question.illustration?.urlResized" width="50" height="50" :src="question.illustration?.urlResized ?  question.illustration?.urlResized  : $config.urlBack+question.illustration" alt="" style="cursor: pointer">
-            <div class="text-center" v-else>&#45;&#45;</div>
+          <td>{{ question.type_question.name }}</td>
+<!--          <td>{{ questionRequired(question.required) }}</td>-->
+          <td>{{ question.required === true || question.required === 1 ? 'Si' : 'No' }}</td>
+          <td class="text-center" >
+            <img @click="previewIlustration(question)" v-if="question.illustration"
+                 width="50" height="50"
+                 :src="question.illustration.urlResized ?  question.illustration.urlResized  : $config.urlBack+question.illustration"
+                 alt="" style="cursor: pointer">
+            <div class="text-center" v-else>--</div>
           </td>
           <td class="text-center">
-            <div class="text-center" v-if="question.options.length === 0">&#45;&#45;</div>
-            <div v-else>[{{
-                question.options.map(item => {
-                  return item.option
-                }).join(', ')
-              }}]
+            <!--            {{ question.options }}-->
+            <div class="text-center" v-if=" question.options.length === 0">--</div>
+            <div v-else>
+              {{
+                (() => {
+                  try {
+                    const parsedOptions = JSON.parse(question.options);
+                    return Array.isArray(parsedOptions) ? parsedOptions.map(item => item.option).join(', ') : 'Holas';
+                  } catch (error) {
+                    return question.options.map(item => item.option).join(', ');
+                  }
+                })()
+              }}
             </div>
+
           </td>
-          <td  v-role="'Admin'">
+          <td v-role="'Admin'">
             <a href="#" @click="removeQuestion(index, question)">Eliminar</a>
           </td>
         </tr>
@@ -43,8 +55,6 @@
 </template>
 
 <script>
-import {bus} from "../../plugins/bus";
-import AddIlustration from "./AddIlustration";
 import PreviewIlustration from "./PreviewIlustration";
 
 export default {
@@ -54,8 +64,13 @@ export default {
       dragging: false,
     }
   },
+  props: ['question'],
   methods: {
-    previewIlustration(question){
+    questionRequired(required){
+      console.log('Validación ', required)
+      return required === true || 1 || '1' ? 'Si' : 'No'
+    },
+    previewIlustration(question) {
       this.$FModal.show(
         {
           component: PreviewIlustration,

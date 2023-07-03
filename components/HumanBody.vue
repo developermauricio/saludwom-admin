@@ -84,6 +84,13 @@ export default {
       selectionColour: "#792141"
     };
   },
+  props:['dataBody'],
+  beforeMount() {
+    this.selection = this.dataBody
+    if (this.dataBody.length > 0){
+      // this.disabled = true
+    }
+  },
   methods: {
     handleClick(bodyPartClicked) {
       console.log(bodyPartClicked)

@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <div class="card-img-top file-logo-wrapper">
+    <div class="card-img-top file-logo-wrapper" v-if="showPreview">
       <div class="dropdown float-end">
         <i data-feather="more-vertical" class="toggle-dropdown mt-n25"></i>
       </div>
@@ -10,13 +10,13 @@
       </div>
     </div>
     <div class="card-body pt-0 pl-0 pr-0">
-       <span :class="`badge w-100 bg-${stateResource(resource.resources_folder_content.state)}`">{{
+       <span :class="`badge w-100 bg-${stateResource(resource.resources_folder_content.state)}`" v-if="showPreview">{{
            resource.resources_folder_content.state === '1' ? 'Disponible' : 'No Disponible'
          }}</span>
       <div class="p-2">
         <div class="content-wrapper cursor-pointer d-flex justify-content-between mb-2">
           <div @click="openResource(resource)">
-            <a href="#" class="card-text file-name mb-0">{{ resource.resources_folder_content.name }}</a>
+            <a href="#" class="card-text file-name mb-0">{{ resource.resources_folder_content.name | truncate(5) }}</a>
           </div>
           <div class="d-flex justify-content-between" v-if="!selected">
             <div>
@@ -25,30 +25,32 @@
               </a>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuCardResource">
                 <a class="dropdown-item" href="#" @click="openModalEdit(resource)">Actualizar</a>
-                <a class="dropdown-item" href="#">Eliminar</a>
+                <a class="dropdown-item" href="#" @click="deleteResource(resource)">Eliminar</a>
               </div>
             </div>
           </div>
 
           <!--        <p class="card-text file-date">01 may 2019</p>-->
         </div>
-        <small class="file-accessed">{{ resource.resources_folder_content.description | truncate(20) }}</small>
-<!--        <div class="mt-2">-->
-<!--          <div>-->
-<!--            <div v-for="(treatment, index) in resource.resources_folder_content.treatments" :key="index">-->
-<!--              &lt;!&ndash;            <span class="badge bg-primary ml-1 mt-1">{{ treatment.treatment }}</span>&ndash;&gt;-->
-<!--              <ul class="m-0">-->
-<!--                <li>-->
-<!--                  <p class="font-italic text-muted m-0" style="font-size: 12px">{{ treatment.treatment }}. </p>-->
-<!--                </li>-->
-<!--              </ul>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
+        <small class="file-accessed">{{ resource.resources_folder_content.description | truncate(15) }}</small>
+        <!--        <div class="mt-2">-->
+        <!--          <div>-->
+        <!--            <div v-for="(treatment, index) in resource.resources_folder_content.treatments" :key="index">-->
+        <!--              &lt;!&ndash;            <span class="badge bg-primary ml-1 mt-1">{{ treatment.treatment }}</span>&ndash;&gt;-->
+        <!--              <ul class="m-0">-->
+        <!--                <li>-->
+        <!--                  <p class="font-italic text-muted m-0" style="font-size: 12px">{{ treatment.treatment }}. </p>-->
+        <!--                </li>-->
+        <!--              </ul>-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--        </div>-->
         <div v-if="selected === true" class="mt-2">
-            <div>
-              <button  :class="`btn btn-${isSelected(resource) ? 'success':'primary'} btn-sm float-right`" @click="selectedResource(resource)">{{ isSelected(resource) ? 'Seleccionado' : 'Seleccionar' }}</button>
-            </div>
+          <div>
+            <button :class="`btn btn-${isSelected(resource) ? 'success':'primary'} btn-sm float-right`"
+                    @click="selectedResource(resource)">{{ isSelected(resource) ? 'Seleccionado' : 'Seleccionar' }}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -65,15 +67,29 @@ import {mapState} from "vuex";
 
 export default {
   name: "CardResource",
-  props: ['resource', 'folderId', 'selected'],
+  data() {
+    return {
+      showPreview: true
+    }
+  },
+  props: ['resource', 'folderId', 'selected', 'shorPreviewState'],
   computed: {
     ...mapState(['resources']),
     isSelected() {
-      return resource => this.resources.resources.selectedResourceVideo.find((item) =>{return resource.id === item.id})
+      return resource => this.resources.resources.selectedResourceVideo.find((item) => {
+        return resource.id === item.id
+      })
     },
   },
+  beforeMount() {
+    console.log(this.shorPreviewState)
+    this.showPreview = this.shorPreviewState !== false
+  },
   methods: {
-    selectedResource(resource){
+    deleteResource(resource){
+
+    },
+    selectedResource(resource) {
       this.$store.commit('SET_SELECTED_RESOURCE_VIDEO', resource)
     },
     openResource(resource) {
@@ -85,7 +101,7 @@ export default {
           placement: 'center top',
         },
         {
-          resource: resource
+          resourceFolder: resource
         }
       )
     },
