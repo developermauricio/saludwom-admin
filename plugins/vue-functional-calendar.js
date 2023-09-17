@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import FunctionalCalendar from 'vue-functional-calendar';
-Vue.use(FunctionalCalendar, {
-  dayNames: ['Lun', 'Mar', 'Mier', 'Jue', 'Vie', 'Sab', 'Dom'],
-});
+import flatPickr from 'vue-flatpickr-component';
+import 'flatpickr/dist/flatpickr.css';
+import 'bootstrap/dist/css/bootstrap.css';
+Vue.use(flatPickr);

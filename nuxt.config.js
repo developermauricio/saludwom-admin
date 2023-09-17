@@ -50,6 +50,7 @@ export default {
     '@/app-assets/css/pages/app-chat.css',
     '@/app-assets/css/pages/app-chat-list.css',
     '@/app-assets/css/pages/app-file-manager.css',
+    '@/app-assets/vendors/css/calendars/fullcalendar.min.css',
     '@/assets/css/style.css',
     'boxicons/css/boxicons.min.css'
   ],
@@ -60,18 +61,22 @@ export default {
     '~/plugins/vuelidate',
     '~/plugins/vue-multiselect',
     '~/plugins/laravel-permissions',
-    { src: '~/plugins/truncate.js' },
+    {src: '~/plugins/truncate.js'},
     {src: '~/plugins/vue-easytable', ssr: false},
     {src: '~/plugins/splideplugin', mode: 'client'},
     {src: '~/plugins/mqtt', mode: 'client', ssr: false},
     {src: '~/app-assets/js/core/app.js', mode: 'client'},
     {src: '~/plugins/vue-ctk-date-time-picker', ssr: false},
     {src: '~/app-assets/js/core/app-menu.js', mode: 'client'},
+    {src: '~/plugins/vue-js-popover.js', mode: 'client', ssr: false},
     {src: '~/plugins/vue-sweetalert2', mode: 'client', ssr: false},
     {src: '~/app-assets/vendors/js/vendors.min.js', mode: 'client'},
     {src: '~/plugins/vue-file-agent.js', mode: 'client', ssr: false},
     {src: '~/plugins/vue-load-image.js', mode: 'client', ssr: false},
     {src: '~/plugins/vue-toastification', mode: 'client', ssr: false},
+    {src: '~/plugins/vuejs-datepicker.js', mode: 'client', ssr: false},
+    {src: '~/plugins/vue-phone-number-input.js', ssr: false},
+    {src: '~/plugins/vue-functional-calendar.js', mode: 'client', ssr: false},
     {src: '~/plugins/vue-fullpage-modal.js', mode: 'client', ssr: false},
     {src: '~/plugins/vuejs-loadmore.js'}
   ],
@@ -122,7 +127,9 @@ export default {
       '~/components/resources',
       '~/components/questionnaire',
       '~/components/admin/doctors',
+      '~/components/full-calendar',
       '~/components/admin/patients',
+      '~/components/calendar-doctor',
       '~/components/admin/valorations',
       '~/components/doctor/patients',
       '~/components/doctor/valorations',
@@ -144,6 +151,7 @@ export default {
   },
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    ['@nuxtjs/date-fns', {defaultLocale: 'es'}],
     '@nuxtjs/auth-next',
     // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
@@ -167,5 +175,10 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {}
+  build: {
+    transpile: [
+      '@fullcalendar/core' // Añade otros módulos si es necesario
+      // ...
+    ],
+  }
 }

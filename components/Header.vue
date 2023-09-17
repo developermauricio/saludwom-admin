@@ -32,7 +32,7 @@
             </div>
             <span class="avatar">
           <img class="round"
-               :src="$auth.user.picture ? $config.urlBack+$auth.user.picture : require(`~/app-assets/images/avatars/avatar.png`)"
+               :src="userPicture"
                alt="avatar" height="40"
                width="40">
           <span class="avatar-status-online"></span>
@@ -66,6 +66,15 @@ export default {
   data() {
     return {
       themeDark: false,
+    }
+  },
+  computed: {
+    userPicture() {
+      if (this.$auth.user.picture.includes('user-profile.png') || this.$auth.user.picture.includes('storage')){
+        return `${this.$config.urlBack}${this.$auth.user.picture}`
+      }
+      // Verifica si hay una imagen de usuario y devuelve la URL correspondiente
+      return this.$auth.user.picture
     }
   },
   methods: {

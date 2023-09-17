@@ -8,16 +8,22 @@
             <div>
               <p style="color: gray !important; font-size: 12px" class="mb-0">Fecha de cita.</p>
               <div class="d-flex align-items-center">
-                <i
-                  :class="`bx bx-time-five mr-1 ${appointment.state === '2' || appointment.state === '3' ? 'text-light' : ''}`"></i>
+                <i :class="`bx bx-calendar mr-1 font-weight-bold ${appointment.state === '2' || appointment.state === '3' ? 'text-light' : ''}`"></i>
                 <p :class="`m-0 ${appointment.state === '2' || appointment.state === '3' ? 'text-light' : ''}`">
-                  {{
-                    appointment.date ? $moment(appointment.date).tz(timezoneUser).format('LLLL') : 'No hay fecha'
+                  <strong>Fecha:</strong> {{
+                    appointment.date ? $moment(appointment.date).tz(timezoneUser).format('LLL') : 'No hay fecha'
+                  }}</p>
+              </div>
+              <div class="d-flex align-items-center">
+                <i :class="`bx bx-time-five font-weight-bold mr-1 ${appointment.state === '2' || appointment.state === '3' ? 'text-light' : ''}`"></i>
+                <p :class="`m-0 ${appointment.state === '2' || appointment.state === '3' ? 'text-light' : ''}`">
+                  <strong>Hora:</strong> {{
+                    appointment.date ? $moment(appointment.date).tz(timezoneUser).format('HH:mm') : 'No hay fecha'
                   }}</p>
               </div>
             </div>
             <!-- Boton Zoom -->
-            <div v-if="appointment.state === '1' || appointment.state === '5'">
+            <div class="mt-2" v-if="appointment.state === '1' || appointment.state === '5'">
               <a class="btn m-1 btn-sm btn-info-zoom" :href="appointment.link_meeting_zoom" target="_blank">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                      class="bi bi-camera-video" viewBox="0 0 16 16">

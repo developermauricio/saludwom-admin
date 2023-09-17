@@ -71,7 +71,7 @@
             <a @click="goTo('/doctores')" class="d-flex align-items-center menu-principal">
               <div v-html="$feathericons['users'].toSvg()"></div>
               <div class="content-title-text">
-                <span class="menu-title text-truncate">Doctores</span>
+                <span class="menu-title text-truncate">Especialistas</span>
               </div>
             </a>
           </li>

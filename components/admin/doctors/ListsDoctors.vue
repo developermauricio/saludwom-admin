@@ -1,17 +1,21 @@
 <template>
-    <div>
-      <div class="row" id="table-striped">
-        <div class="col-12">
-            <TableDoctors
-              :doctors.sync="doctors"
-              :messageIsDoctors="messageIsDoctors"
-            />
-        </div>
+  <div>
+    <div class="row" id="table-striped">
+      <div class="col-12">
+        <TableDoctors
+          :doctors.sync="doctors"
+          :messageIsDoctors="messageIsDoctors"
+          @searchDoctors="searchDoctors"
+          @updateTableDoctor="getDoctors"
+        />
       </div>
     </div>
+  </div>
 </template>
 
 <script>
+
+import {bus} from "../../../plugins/bus";
 
 export default {
   name: "ListsDoctors",
@@ -22,7 +26,14 @@ export default {
       countItems: []
     }
   },
-  methods:{
+  created() {
+    setTimeout(() =>{
+      bus.$on('updateTableListDoctor', () => {
+        this.getDoctors();
+      })
+    }, 200)
+  },
+  methods: {
     searchDoctors(data) {
       this.doctors = data
     },
@@ -36,7 +47,7 @@ export default {
         this.countItems = resp.data.countDataState
         this.$vs.loading.close()
         if (this.doctors.length === 0) {
-          return this.messageIsDoctors= true
+          return this.messageIsDoctors = true
         }
         this.messageIsDoctors = false
       }).catch(e => {

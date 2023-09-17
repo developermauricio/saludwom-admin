@@ -307,7 +307,7 @@ export default {
         if (exist.length > 0) {
           this.$emit('searchPatients', exist)
         } else {
-          this.$toast.error("El paciente no se encuentra registrado o no ha asido asignado al doctor.");
+          this.$toast.error("El paciente no se encuentra registrado o no ha asido asignado por un especialista.");
         }
       } else {
         this.$emit('updateGetPatients')

@@ -122,7 +122,7 @@ export default {
           this.$axios.post('api/v1/add-questionnaire', this.$store.state.app.questionnaire).then(async resp =>{
             await this.$store.dispatch('ACTION_CLEAR_DATA_QUESTIONNAIRE')
             this.$toast.success("El cuestionario se agrego correctamente.");
-            bus.$emit('updateTableQuestionnaire');
+            bus.$emit('updateTableListDoctor');
             this.$vs.loading.close()
             this.$FModal.hide()
           }).catch(e =>{

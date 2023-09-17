@@ -206,3 +206,10 @@ a.text-primary:hover{
 .Vue-Toastification__container{
   z-index: 999999999 !important;
 }
+.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day:hover, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month:hover, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year:hover{
+  border: 1px solid #792141 !important;
+}
+.vdp-datepicker__calendar .cell.selected{
+  background-color: #792141 !important;
+  color: #ffffff !important;
+}

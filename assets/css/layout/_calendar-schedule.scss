@@ -1,0 +1,41 @@
+.flatpickr-day.has-appointment {
+  background-color: #622240 !important;
+  color: #FFFFFF !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+}
+
+.flatpickr-day.selected {
+  background-color: #D85C72 !important;
+  color: #FFFFFF !important;
+  border-color: #D85C72 !important;
+}
+
+.flatpickr-day.today {
+  border-color: #D85C72 !important;
+}
+
+.calendar-component {
+  display: none !important;
+}
+
+span.hourAvailable {
+  background-color: #622240 !important;
+  color: #FFFFFF !important;
+}
+
+span.hourScheduled {
+  background-color: #28a745 !important;
+  color: #FFFFFF !important;
+}
+
+span.selected-for-appointment-available {
+  border: 3px solid #D85C72 !important;
+}
+
+.vue-popover.dropdown-position-bottom {
+  width: 180px !important;
+  z-index: 2 !important;
+  left: 300px !important;
+  top: 240px !important;
+}
