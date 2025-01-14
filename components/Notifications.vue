@@ -15,7 +15,8 @@
           <div class="d-flex justify-content-between align-items-center">
             <div>
               <h4>Notificaciones</h4>
-              <a class="position-relative text-primary" style="font-size: 0.9rem; cursor: pointer; z-index: 100" @click="markNotificationsAsRead">Marcar todas como leídas</a>
+              <a class="position-relative text-primary" style="font-size: 0.9rem; cursor: pointer; z-index: 100"
+                 @click="markNotificationsAsRead">Marcar todas como leídas</a>
             </div>
             <div class="">
               <div>
@@ -85,8 +86,8 @@ export default {
     }
   },
   methods: {
-    markNotificationsAsRead(){
-      if (this.totalNews === 0){
+    markNotificationsAsRead() {
+      if (this.totalNews === 0) {
         return
       }
       this.$vs.loading({
@@ -97,7 +98,7 @@ export default {
         this.notifications = []
         this.getNotifications()
         this.$vs.loading.close()
-      }).catch(e =>{
+      }).catch(e => {
         this.$vs.loading.close()
         console.log(e)
       })
@@ -146,8 +147,10 @@ export default {
     },
     formatDate(date) {
       let now = this.$moment();
-      let publishedDate = this.$moment(date).tz(this.timezoneUser)
-      return this.$moment.duration(publishedDate.diff(now)).humanize(true)
+      console.log(this.timezoneUser)
+      let publishedDate = this.$moment(date).tz(this.timezoneUser);
+      let diffDuration = this.$moment.duration(publishedDate.diff(now));
+      return diffDuration.humanize(true);
     },
 
     getNotifications() {
@@ -168,6 +171,7 @@ export default {
     },
     async newNotification() {
       await subscriberMQTT('notification-0001', 'notification', (data) => {
+        console.log(data)
         if (parseInt(data) === this.$auth.user.id) {
           setTimeout(() => {
             this.notifications = []
@@ -178,7 +182,20 @@ export default {
     },
   },
   created() {
-    this.timezoneUser = Intl.DateTimeFormat().resolvedOptions().timeZone
+    try {
+      const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+      if (userTimeZone) {
+        this.timezoneUser = userTimeZone;
+      } else {
+        // Si no se pudo obtener la zona horaria del navegador, establecer una predeterminada
+        this.timezoneUser = 'Europe/Madrid'; // Por ejemplo, configurar como UTC
+      }
+    } catch (error) {
+      console.error('Error al obtener la zona horaria:', error);
+      // En caso de un error, también puedes establecer una zona horaria predeterminada
+      this.timezoneUser = 'Europe/Madrid';
+    }
   },
   mounted() {
     this.getNotifications()

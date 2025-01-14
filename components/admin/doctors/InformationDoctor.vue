@@ -2,7 +2,7 @@
   <div>
     <div class="row">
       <div class="col-12 col-lg-6 col-md-6">
-        <label class="form-label font-weight-bold" for="first-name-column">Nombres:</label>
+        <label class="form-label font-weight-bold" for="first-name-column">Nombre:</label>
         <p>{{ doctor.fullName }}</p>
       </div>
       <div class="col-12 col-lg-6 col-md-6">
@@ -11,7 +11,9 @@
       </div>
       <div class="col-12 col-lg-6 col-md-6">
         <label class="form-label font-weight-bold" for="first-name-column">Correo Electrónico:</label>
-        <p>{{ doctor.email }}</p>
+        <div>
+          <a :href="`mailto:${doctor.email}`">{{ doctor.email }}</a>
+        </div>
       </div>
       <div class="col-12 col-lg-6 col-md-6">
         <label class="form-label font-weight-bold" for="first-name-column">Teléfono:</label>

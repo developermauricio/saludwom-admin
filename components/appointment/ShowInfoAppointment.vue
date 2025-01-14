@@ -1,15 +1,15 @@
 <template>
     <div class="p-2">
-        <h3>Cita con el especialista <strong>{{doctor.name}}</strong></h3>
+        <h3>Cita con el paciente <strong>{{appointment.title}}</strong></h3>
       <div class="d-flex justify-content-between mt-2">
         <div>
-          <p style="color: gray !important; font-size: 1.1rem" class="mb-0">Fecha de cita.</p>
+          <p style="font-size: 1.1rem" class="mb-0">Fecha de cita.</p>
           <div class="d-flex align-items-center mt-1">
             <i class="bx bx-calendar mr-1 font-weight-bold"></i>
             <p class="m-0">
               <strong>Fecha:</strong>
               {{
-                appointment._def.extendedProps.dateAppointment ? $moment(appointment._def.extendedProps.dateAppointment).tz(timezoneUser).format('LLL') : 'No hay fecha'
+                appointment._def.extendedProps.dateAppointment ? $moment(appointment._def.extendedProps.dateAppointment).tz(timezoneUser).format('LL') : 'No hay fecha'
               }}</p>
           </div>
           <div class="d-flex align-items-center mt-1">
@@ -85,7 +85,20 @@ export default {
     }
   },
   created() {
-    this.timezoneUser = Intl.DateTimeFormat().resolvedOptions().timeZone
+    try {
+      const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+      if (userTimeZone) {
+        this.timezoneUser = userTimeZone;
+      } else {
+        // Si no se pudo obtener la zona horaria del navegador, establecer una predeterminada
+        this.timezoneUser = 'Europe/Madrid'; // Por ejemplo, configurar como UTC
+      }
+    } catch (error) {
+      console.error('Error al obtener la zona horaria:', error);
+      // En caso de un error, también puedes establecer una zona horaria predeterminada
+      this.timezoneUser = 'Europe/Madrid';
+    }
   }
 }
 </script>

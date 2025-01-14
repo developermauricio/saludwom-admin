@@ -518,8 +518,8 @@ select:-webkit-autofill {
   background-repeat: no-repeat;
   background-position: center;
   background-size: 16px;
-  color: #6e6b7b;
-  width: 14px;
+  color: #ffffff !important;
+  width: 20px;
   height: 11px;
   position: relative;
   top: 1px;
@@ -527,7 +527,8 @@ select:-webkit-autofill {
   left: 0.714rem;
   padding: 0;
   margin: 0;
-  vertical-align: 0; }
+  vertical-align: 0;
+}
 
 .dropdown-toggle.btn-lg::after {
   background-size: 18px; }
@@ -2782,3 +2783,10 @@ a:hover {
 
 .pointer-events-none {
   pointer-events: none; }
+.vue-bootstrap-sidebar .list-group-item .dropdown-toggle:after{
+  position: relative !important;
+  left: 5.714rem !important;
+}
+.default-theme .list-group-item .sidebar-menu-item{
+  color: #494951 !important;
+}

@@ -24,6 +24,9 @@ export default {
     }
   },
   mounted() {
+    // this.$customScriptVendor();
+    // this.$customScriptMenu();
+    // this.$customScriptApp();
     this.test()
   }
 }

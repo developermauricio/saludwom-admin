@@ -1,6 +1,6 @@
 export const state = () => ({
   videos: [],
-  dataLoading: false,
+  dataLoading: true,
   currentVideo: '',
 })
 
@@ -18,15 +18,22 @@ export const mutations = {
       state.videos.unshift(data)
     }
   },
+
+  SET_VIDEO_CLEAR_DATA(state, data) {
+    state.dataLoading = true
+    state.videos = []
+  }
 }
 export const actions = {
 
   getVideosResourceFolder({commit, state}, folderId) {
+    console.log('ENTRO POR ACÁ')
     this.$axios.$get(`/api/v1/get-files-resource-to-folder/${folderId}`).then(resp => {
+
       state.videos = []
-      console.log('VIDES RESOURCE ', resp.data)
-      resp.data.forEach(item =>{
-        if (item.state === '1'){
+
+      resp.data.forEach(item => {
+        if (item.state === '1') {
           commit('SET_VIDEOS_RESOURCE_FOLDER', item)
         }
       })
@@ -39,6 +46,7 @@ export const actions = {
     })
   },
 
+  //Se llama addVideo pero tambien agrega los recursos de documento y imagen
   async addVideo({commit, state, dispatch}, data) {
     let resp
     try {

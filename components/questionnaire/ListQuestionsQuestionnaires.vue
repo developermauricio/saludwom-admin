@@ -3,7 +3,7 @@
     <vs-tabs alignment="center" color="#792141">
       <vs-tab label="Lista de Preguntas">
         <div>
-            <Questions :question="questions"/>
+            <Questions :isAdd="isAdd" :question="questions"/>
         </div>
       </vs-tab>
       <vs-tab label="Vista Previa">
@@ -18,7 +18,7 @@
 <script>
 export default {
   name: "ListQuestionsQuestionnaires",
-  props: ['questions', 'questionnaire']
+  props: ['questions', 'questionnaire', 'isAdd']
 }
 </script>
 

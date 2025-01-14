@@ -23,7 +23,19 @@ const routes = [
       {path: '/objetivos', name: 'index.objectives', component: page('app/valorations/Valorations.vue')},
       {path: '/objetivos/:slug', name: 'show.objectives', component: page('app/valorations/ShowValoration.vue')},
       /* Rutas para los doctores*/
-      {path: '/doctores', name: 'index.doctors', component: page('app/doctors/Doctors.vue')},
+      {path: '/especialistas', name: 'index.doctors', component: page('app/doctors/Doctors.vue')},
+      /* Rutas para las especialidades*/
+      {path: '/especialidades', name: 'index.specialities', component: page('app/specialities/Specialities.vue')},
+      /* Rutas para las citas*/
+      {path: '/citas', name: 'index.appointments', component: page('app/appointments/Appointments.vue')},
+      /* Rutas para los planes*/
+      {path: '/planes', name: 'index.plans', component: page('app/plans/Plans.vue')},
+      /* Rutas para los planes*/
+      {path: '/cupones', name: 'index.coupons', component: page('app/coupons/Coupons.vue')},
+      /* Rutas para las ordenes de compra*/
+      {path: '/ordenes', name: 'index.orders', component: page('app/orders/Orders.vue')},
+      /* Rutas para los */
+      {path: '/suscripciones', name: 'index.subscriptions', component: page('app/subscriptions/Subscriptions.vue')},
       /* Rutas para los cuestionarios*/
       {path: '/cuestionarios', name: 'index.questionnaires', component: page('app/questionnaires/Questionnaires')},
       /* Rutas para los recursos*/

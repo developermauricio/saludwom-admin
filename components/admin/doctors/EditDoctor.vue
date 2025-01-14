@@ -6,10 +6,10 @@
       <div class="row">
         <div class="col-12 d-flex justify-content-end mt-2">
           <div>
-            <button class="btn btn-danger mr-2" @click="closeModal">Cancelar</button>
+            <button class="btn btn-secondary mr-2" @click="closeModal">Cancelar</button>
           </div>
           <div>
-            <button class="btn btn-success" @click="editDoctor">Actualizar</button>
+            <button class="btn btn-primary" @click="editDoctor">Actualizar</button>
           </div>
         </div>
       </div>
@@ -78,7 +78,7 @@ export default {
 
       this.$swal.fire(
         {
-          title: '¿Esta seguro de actualizar el especialista?',
+          title: '¿Esta seguro de editar la información el especialista?',
           icon: 'warning',
           confirmButtonText: 'Estoy seguro',
           cancelButtonText: 'No',

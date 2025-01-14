@@ -260,8 +260,20 @@ export default {
     }
   },
   created() {
-    // this.getUnreadMessages()
-    this.timezoneUser = Intl.DateTimeFormat().resolvedOptions().timeZone
+    try {
+      const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+      if (userTimeZone) {
+        this.timezoneUser = userTimeZone;
+      } else {
+        // Si no se pudo obtener la zona horaria del navegador, establecer una predeterminada
+        this.timezoneUser = 'Europe/Madrid'; // Por ejemplo, configurar como UTC
+      }
+    } catch (error) {
+      console.error('Error al obtener la zona horaria:', error);
+      // En caso de un error, también puedes establecer una zona horaria predeterminada
+      this.timezoneUser = 'Europe/Madrid';
+    }
   },
   mounted() {
     this.toTop()

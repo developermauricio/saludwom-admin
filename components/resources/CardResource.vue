@@ -1,20 +1,20 @@
 <template>
-  <div class="card">
+  <div class="card h-75">
     <div class="card-img-top file-logo-wrapper" v-if="showPreview">
       <div class="dropdown float-end">
         <i data-feather="more-vertical" class="toggle-dropdown mt-n25"></i>
       </div>
-      <div class="d-flex align-items-center justify-content-center w-100 cursor-pointer"
+      <div class="d-flex align-items-center justify-content-center w-100 cursor-pointer icon-resource"
            @click="openResource(resource)">
         <div v-html="$feathericons[iconCardResource(resource.type_file)].toSvg()"></div>
       </div>
     </div>
-    <div class="card-body pt-0 pl-0 pr-0">
+    <div class="card-body pt-0 pl-0 pr-0 pb-3">
        <span :class="`badge w-100 bg-${stateResource(resource.resources_folder_content.state)}`" v-if="showPreview">{{
            resource.resources_folder_content.state === '1' ? 'Disponible' : 'No Disponible'
          }}</span>
       <div class="p-2">
-        <div class="content-wrapper cursor-pointer d-flex justify-content-between mb-2">
+        <div class="content-wrapper cursor-pointer d-flex justify-content-between mb-1">
           <div @click="openResource(resource)">
             <a href="#" class="card-text file-name mb-0">{{ resource.resources_folder_content.name | truncate(5) }}</a>
           </div>
@@ -33,6 +33,9 @@
           <!--        <p class="card-text file-date">01 may 2019</p>-->
         </div>
         <small class="file-accessed">{{ resource.resources_folder_content.description | truncate(15) }}</small>
+        <div class="mt-1 d-flex justify-content-end">
+          <p style="font-size: 12px" class="mb-0">{{ this.$moment(resource.created_at).format('DD MMMM YYYY') }}</p>
+        </div>
         <!--        <div class="mt-2">-->
         <!--          <div>-->
         <!--            <div v-for="(treatment, index) in resource.resources_folder_content.treatments" :key="index">-->
@@ -131,39 +134,40 @@ export default {
     iconCardResource(type) {
       switch (type.toLowerCase()) {
         case 'mov':
-          return 'video'
+          return 'youtube'
         case 'mp4':
-          return 'video'
+          return 'youtube'
         case 'wmv':
-          return 'video'
+          return 'youtube'
         case 'avi':
-          return 'video'
+          return 'youtube'
         case 'iframe':
-          return 'video'
+          return 'youtube'
         case 'docx':
-          return 'icon-doc.png'
+          return 'file-text'
         case 'doc':
-          return 'icon-doc.png'
+          return 'file-text'
         case 'pdf':
-          return 'icon-pdf.png'
+          return 'file-text'
         case 'png':
-          return 'icon-image.png'
+          return 'image'
         case 'jpg':
-          return 'icon-image.png'
+          return 'image'
         case 'jpeg':
-          return 'icon-image.png'
+          return 'image'
         case 'webp':
-          return 'icon-image.png'
+          return 'image'
         case 'gif':
-          return 'icon-image.png'
+          return 'image'
         case 'heif':
-          return 'icon-image.png'
+          return 'image'
         case 'hevc':
-          return 'icon-image.png'
+          return 'image'
         case 'psd':
-          return 'icon-image.png'
+          return 'image'
         case 'svg':
-          return 'icon-image.png'
+          return 'image'
+        default: 'paperclip'
       }
     }
   }
@@ -171,5 +175,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

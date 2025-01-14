@@ -101,7 +101,7 @@ export const actions = {
   async deleteResource({commit, state}, resource){
     let resp
     try {
-      console.log('entro aca')
+
       resp = await this.$axios.delete(
         '/api/v1/delete-resource-valoration',
         resource

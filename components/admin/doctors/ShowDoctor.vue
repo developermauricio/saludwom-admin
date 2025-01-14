@@ -12,6 +12,9 @@
         </span>
           <div>
             <h3 class="m-0">Esp. {{ doctor.fullName }}</h3>
+            <div>
+              <a :href="`mailto:${doctor.email}`">{{ doctor.email }}</a>
+            </div>
           </div>
         </div>
         <div>
@@ -96,13 +99,18 @@ export default {
           allowOutsideClick: false,
         }).then(async result => {
         if (result.value) {
+          this.$vs.loading({
+            color: this.$config.colorLoading,
+            text: 'Espere por favor...'
+          })
           this.$axios.post(`/api/v1/change-status-doctor/${this.doctor.userId}`).then(resp => {
             this.doctor.state = resp.data.user.state
             this.$toast.success('El estado se actualizó correctamente.')
           }).catch(e => {
             console.log(e)
-            this.$vs.loading.close()
             this.$toast.error('Error al actualizar el estado. Consulte con soporte SaludWom.')
+          }).finally(() =>{
+            this.$vs.loading.close()
           })
         }
       })

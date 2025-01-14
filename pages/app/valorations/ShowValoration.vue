@@ -13,9 +13,6 @@
         <!--   Botones   -->
             <div v-if="$auth.user.roles[0].name === 'Doctor'">
               <button class="btn btn-primary btn-sm mr-4" @click="addResources()">Asignar Recursos</button>
-<!--              <button class="btn btn-warning mr-4">Asignar Tratamiento</button>-->
-<!--              <button class="btn btn-info mr-4">Informe Médico</button>-->
-<!--              <button class="btn btn-success ">Finalizar Tratamiento</button>-->
             </div>
           </div>
         </div>

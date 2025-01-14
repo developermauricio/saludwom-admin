@@ -1,126 +1,19 @@
 <template>
   <div>
-    <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
-      <div class="navbar-header">
-        <ul class="nav navbar-nav text-center">
-          <li class="nav-item">
-            <a @click="goTo('/panel-control')" class="navbar-brand">
-              <span class="brand-logo m-auto">
-                <img width="140" class="text-center" :src="require(`~/assets/img/logo_saludwom.png`)" alt="">
-              </span>
-            </a>
-          </li>
-          <li class="nav-item nav-toggle">
-            <!--            <a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse">-->
+    <BootstrapSidebar
+      :initial-show="initialShow"
+      :links="links"
+      :header="header"
+      :fa="false"
+      @sidebarChanged="onSidebarChanged"
+    >
 
-            <!--              <i class="d-block d-xl-none text-primary toggle-icon font-medium-4" v-html="$feathericons['x'].toSvg()"-->
-            <!--                 data-feather="x"></i>-->
-            <!--              <i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary"-->
-            <!--                 v-html="$feathericons['disc'].toSvg()"></i>-->
-            <!--            </a>-->
-          </li>
-        </ul>
-      </div>
-      <div class="shadow-bottom"></div>
-      <div class="main-menu-content mt-4">
-        <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-
-          <!--=====================================
-            PANEL DE CONTROL
-            ======================================-->
-          <li :class="this.currentUrl === '/panel-control' ? 'active' :''" class=" nav-item">
-            <a @click="goTo('/panel-control')" class="d-flex align-items-center menu-principal">
-              <div v-html="$feathericons['home'].toSvg()"></div>
-              <div class="content-title-text ">
-                <span class="menu-title text-truncate">Panel de Control</span>
-                <!--                <span class="badge badge-light-warning rounded-pill ms-auto me-1">2</span>-->
-              </div>
-            </a>
-          </li>
-          <li class=" navigation-header">
-            <span data-i18n="Apps &amp; Pages">Menú Principal</span>
-            <!--            <div v-html="$feathericons['more-horizontal'].toSvg()"></div>-->
-          </li>
-
-          <!--=====================================
-            MENU PACIENTES
-            ======================================-->
-          <li :class="this.currentUrl === '/pacientes' ? 'active' :''" class=" nav-item" v-role="'Admin'">
-            <a @click="goTo('/pacientes')" class="d-flex align-items-center menu-principal">
-              <div v-html="$feathericons['users'].toSvg()"></div>
-              <div class="content-title-text">
-                <span class="menu-title text-truncate">Pacientes</span>
-              </div>
-            </a>
-          </li>
-          <!--=====================================
-            MENU OBJETIVOS
-            ======================================-->
-          <li :class="this.currentUrl === '/objetivos' ? 'active' :''" class=" nav-item">
-            <a @click="goTo('/objetivos')" class="d-flex align-items-center menu-principal">
-              <div v-html="$feathericons['zap'].toSvg()"></div>
-              <div class="content-title-text">
-                <span class="menu-title text-truncate">Objetivos</span>
-              </div>
-            </a>
-          </li>
-          <!--=====================================
-            MENU DOCTORES
-            ======================================-->
-          <li :class="this.currentUrl === '/doctores' ? 'active' :''" class=" nav-item"  v-role="'Admin'">
-            <a @click="goTo('/doctores')" class="d-flex align-items-center menu-principal">
-              <div v-html="$feathericons['users'].toSvg()"></div>
-              <div class="content-title-text">
-                <span class="menu-title text-truncate">Especialistas</span>
-              </div>
-            </a>
-          </li>
-          <!--=====================================
-            MENU CUESTIONARIOS
-            ======================================-->
-          <li :class="this.currentUrl === '/cuestionarios' ? 'active' :''" class=" nav-item">
-            <a @click="goTo('/cuestionarios')" class="d-flex align-items-center menu-principal">
-              <div v-html="$feathericons['file-text'].toSvg()"></div>
-              <div class="content-title-text">
-                <span class="menu-title text-truncate">Cuestionarios</span>
-              </div>
-            </a>
-          </li>
-          <!--=====================================
-            MENU RECURSOS
-            ======================================-->
-          <li :class="this.currentUrl === '/recursos' ? 'active' :''" class=" nav-item">
-            <a @click="goTo('/recursos')" class="d-flex align-items-center menu-principal">
-              <div v-html="$feathericons['paperclip'].toSvg()"></div>
-              <div class="content-title-text">
-                <span class="menu-title text-truncate">Recursos</span>
-              </div>
-            </a>
-          </li>
-
-<!--          <li :class="this.currentUrl === '/instructores' ? 'active' :''" class=" nav-item">-->
-<!--            <a @click="goTo('/instructores')" class="d-flex align-items-center menu-principal">-->
-<!--              <div v-html="$feathericons['users'].toSvg()"></div>-->
-<!--              <div class="content-title-text">-->
-<!--                <span class="menu-title text-truncate">Instructores</span>-->
-<!--              </div>-->
-<!--            </a>-->
-<!--          </li>-->
-
-<!--          <li :class="this.currentUrl === '/vehiculos' ? 'active' :''" class="nav-item" style="margin-top: 5px">-->
-<!--            <a @click="goTo('/vehiculos')" class="d-flex align-items-center menu-principal">-->
-<!--              <img style="width: 2rem"-->
-<!--                   :src="require(`~/app-assets/images/icons/${currentTheme === 'dark-layout' ? (this.currentUrl === '/vehiculos' ? 'icon-car-menu-active.png' : 'icon-car-white.png')  : this.currentUrl === '/vehiculos' ? 'icon-car-menu-active.png' : 'icon-car-black.png'}`)"-->
-<!--                   alt="">-->
-<!--              <div class="content-title-text icon-car">-->
-<!--                <span class="menu-title text-truncate">Vehículos</span>-->
-<!--              </div>-->
-<!--            </a>-->
-<!--          </li>-->
-
-        </ul>
-      </div>
-    </div>
+      <template v-slot:content>
+        <b-container style="margin-top: 56px">
+          <router-view/>
+        </b-container>
+      </template>
+    </BootstrapSidebar>
   </div>
 </template>
 
@@ -131,17 +24,47 @@ export default {
   name: "MenuAdministrator",
   data() {
     return {
-      currentTheme: '',
-      currentUrl: '',
+      initialShow: true,
+      header: `<span class="brand-logo m-auto d-flex justify-content-center"><img width="140" class="text-center" src="${require(`~/assets/img/logo_saludwom.png`)}" alt=""></span>`,
+      links: [
+        {name: "Panel de Control", href: {name: "index.panel.control"}, icon: "bar-chart-2"},
+        {name: "Citas", href: {name: "index.appointments"}, icon: "clock"},
+        {name: "Pacientes", href: {name: "index.patients"}, icon: "users"},
+        {name: "Objetivos", href: {name: "index.objectives"}, icon: "zap"},
+        {name: "Suscripciones", href: {name: "index.subscriptions"}, icon: "trello"},
+        {name: "Ordenes de Compra", href: {name: "index.orders"}, icon: "dollar-sign"},
+        {
+          name: "Especialistas",
+          icon: "users",
+          children: [
+            {
+              name: "Lista de Esp.",
+              href: {
+                name: "index.doctors",
+              },
+              icon: "users",
+            },
+            {
+              name: "Especialidades",
+              href: {
+                name: "index.specialities",
+              },
+              icon: "plus",
+            },
+          ],
+        },
+        {name: "Planes", href: {name: "index.plans"}, icon: "grid"},
+        {name: "Cupones", href: {name: "index.coupons"}, icon: "box"},
+        {name: "Recursos", href: {name: "index.resources"}, icon: "paperclip"},
+        {name: "Cuestionarios", href: {name: "index.questionnaires"}, icon: "file-text"},
+      ],
     }
   },
   methods: {
-    goTo(link) {
-      this.currentUrl = link
-      this.$router.push({path: link})
-    }
-  },
-  mounted() {}
+    onSidebarChanged() {
+      console.log()
+    },
+  }
 }
 </script>
 

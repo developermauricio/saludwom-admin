@@ -1,19 +1,22 @@
 <template>
   <div>
-
-    <div class="row">
-      <div class="col-xl-2 col-md-4 col-sm-6 col-6" v-for="(item, index) in countDataStateValoration" :key="index">
-        <div class="card text-center">
-          <div class="card-body">
-            <div :class="`avatar bg-light-${titleStateColor(item.type)} p-50 mb-1`">
-              <div class="avatar-content">
-                <i data-feather="eye" class="font-medium-5"></i>
+    <div>
+      <div class="card-info-patients">
+        <splide :slides="countDataStateValoration" :options="options">
+          <splide-slide v-for="item in countDataStateValoration" :key="item.id">
+            <div class="card text-center">
+              <div class="card-body">
+                <div :class="`avatar bg-light-${titleStateColor(item.type)} p-50 mb-1`">
+                  <div class="avatar-content">
+                    <div v-html="$feathericons[iconState(item.type)].toSvg()"></div>
+                  </div>
+                </div>
+                <h2 class="fw-bolder">{{ item.total }}</h2>
+                <p class="card-text">{{ titleState(item.type) }}</p>
               </div>
             </div>
-            <h2 class="fw-bolder">{{ item.total }}</h2>
-            <p class="card-text">{{ titleState(item.type) }}</p>
-          </div>
-        </div>
+          </splide-slide>
+        </splide>
       </div>
     </div>
   </div>
@@ -23,6 +26,36 @@
 export default {
   name: "CardInfoStateValoration",
   props:['countDataStateValoration'],
+  data(){
+    return{
+      options: {
+        type: 'loop',
+        rewind: true,
+        drag: true,
+        padding: '2rem',
+        gap: '1.3rem',
+        focus: 0,
+        autoplay: true,
+        // height: '20rem',
+        perPage: 4,
+        arrows: true,
+        // autoWidth: true,
+        pagination: false,
+        trimSpace: true,
+        breakpoints: {
+          480: {
+            autoplay: true,
+            autoWidth: false,
+            drag: true,
+            pagination: true,
+            // type   : 'loop',
+            perPage: 1,
+            gap: '1.2rem',
+          },
+        },
+      },
+    }
+  },
   methods:{
     titleState(type){
       switch (type) {
@@ -33,7 +66,7 @@ export default {
         case 'totalResSendFromDoctor':
           return 'Recursos Enviados'
         case 'totalPendSendTreaFromDoctor':
-          return 'Pend. Enviar Tratamiento'
+          return 'Pend. Enviar Tratami..'
         case 'totalInTreatment':
           return 'En Tratamiento'
         case 'totalFinished':
@@ -54,6 +87,22 @@ export default {
           return 'primary'
         case 'totalFinished':
           return 'success'
+      }
+    },
+    iconState(type) {
+      switch (type) {
+        case 'totalValorations':
+          return 'list'
+        case 'totalPendSendRes':
+          return 'clock'
+        case 'totalResSendFromDoctor':
+          return 'send'
+        case 'totalPendSendTreaFromDoctor':
+          return 'folder-plus'
+        case 'totalInTreatment':
+          return 'heart'
+        case 'totalFinished':
+          return 'check-circle'
       }
     }
   }

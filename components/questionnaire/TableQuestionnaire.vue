@@ -7,14 +7,27 @@
         </div>
         <div class="d-md-flex d-lg-flex align-items-center justify-content-end px-2">
           <!--=====================================
-               FILTRAR TRATAMIENTO
+               FILTRAR ESPECIALIDAD
           ======================================-->
           <div class="mr-3 mt-1 px-1 m-md-0 m-lg-0 w-50">
-            <label class="form-label" for="basicSelect">Filtrar por Tratamiento</label>
+            <label class="form-label" for="basicSelect">Filtrar por Especialidad</label>
             <select class="form-select" v-model="valueTreatment">
               <option value="">Mostrar todos</option>
               <option v-for="(treatment, index) in treatments" :key="treatment.id" :value="treatment.id">
                 {{ treatment.treatment }}
+              </option>
+            </select>
+          </div>
+
+          <!--=====================================
+              FILTRAR CATEGORÍA
+         ======================================-->
+          <div class="mr-3 mt-1 px-1 m-md-0 m-lg-0 w-50">
+            <label class="form-label" for="basicSelect">Filtrar por Categoría</label>
+            <select class="form-select" v-model="valueCategory">
+              <option value="">Mostrar todos</option>
+              <option v-for="(category, index) in categories" :key="category.id" :value="category.id">
+                {{ category.category }}
               </option>
             </select>
           </div>
@@ -78,7 +91,9 @@ export default {
       valueSearchQuestionnaire: '',
       questionnaires: [],
       treatments: [],
+      categories: [],
       valueTreatment: '',
+      valueCategory: '',
       messageIsQuestionnaires: false,
       rowStyleOption: {
         stripe: true,
@@ -99,12 +114,32 @@ export default {
         },
       },
       columnsTable: [
-        {field: "name", key: "name", title: "Nombre Cuestionario", width: "20%"},
         {
-          field: "treatment", key: "treatment", title: "Tratamientos", width: "30%",
+          field: "name", key: "name", title: "Nombre Cuestionario", width: "20%",
+          renderBodyCell: ({row, column, rowIndex}, h) => {
+            return <a href="#" on-click={() => this.openModalDetail(row)}>
+              <div class="d-flex align-items-center">
+                <div class="mt-2">
+                  <p>{row.name}</p>
+                </div>
+              </div>
+            </a>
+          },
+        },
+        {
+          field: "treatment", key: "treatment", title: "Especialidad", width: "20%",
           renderBodyCell: ({row, column, rowIndex}, h) => {
             return row.treatments.map((item) => {
               return <span class="badge bg-primary ml-1 mt-1">{item.treatment}</span>
+            })
+          },
+        },
+        {
+          field: "category", key: "category", title: "Categorías", width: "15%",
+          renderBodyCell: ({row, column, rowIndex}, h) => {
+            return row.categories.map((item) => {
+              console.log(item)
+              return <span class="badge bg-primary ml-1 mt-1">{item ? item.category : 'No registra'}</span>
             })
           },
         },
@@ -120,7 +155,7 @@ export default {
           },
         },
         {field: "created_at_format", key: "created_at_format", title: "Fecha de Registro"},
-        {field: "update_at_format", key: "update_at_format", title: "Fecha Última Actualización"},
+        {field: "update_at_format", key: "update_at_format", title: "Última Actualización"},
         {
           field: "button", key: "button", title: "Acciones", width: "15%", align: "center",
           renderBodyCell: ({row, column, rowIndex}, h) => {
@@ -144,13 +179,23 @@ export default {
   },
   methods: {
     getTreatments() {
-      this.$axios.get('api/v1/get-treatments').then(resp => {
+      this.$axios.get('api/v1/get-treatments-actives').then(resp => {
         this.treatments = resp.data.data
       }).catch(e => {
         console.log(e)
-        this.$toast.error("Error al obtener los tratamientos. Consulte a soporte SaludWom.");
+        this.$toast.error("Error al obtener las especialidades. Consulte a soporte SaludWom.");
       })
     },
+
+    getCategories() {
+      this.$axios.get('api/v1/get-categories').then(resp => {
+        this.categories = resp.data.data
+      }).catch(e => {
+        console.log(e)
+        this.$toast.error("Error al obtener las categorias. Consulte a soporte SaludWom.");
+      })
+    },
+
     deleteQuestionnaire(row) {
       console.log(row)
       this.$swal.fire(
@@ -208,7 +253,7 @@ export default {
         color: this.$config.colorLoading,
         text: 'Espere por favor...'
       })
-      this.$axios.get(`/api/v1/get-questionnaires/?treatmentId=${this.valueTreatment}`).then(resp => {
+      this.$axios.get(`/api/v1/get-questionnaires/?treatmentId=${this.valueTreatment}&categoryId=${this.valueCategory}`).then(resp => {
         this.questionnaires = resp.data.data
         this.$vs.loading.close()
         if (this.questionnaires.length === 0) {
@@ -239,11 +284,14 @@ export default {
   },
   mounted() {
     this.getTreatments()
+    this.getCategories()
     this.getQuestionnaire();
   },
   watch: {
     valueTreatment: function (val) {
-      console.log(val)
+      this.getQuestionnaire()
+    },
+    valueCategory: function (val) {
       this.getQuestionnaire()
     }
   },

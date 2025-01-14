@@ -40,6 +40,7 @@
     </div>
     <!-- Agregar Videos -->
     <div class="mt-2">
+      <p style="font-size: 12px">Formato valido MP4 y MOV</p>
       <div v-if="pathVideoUrl">
         <UploadFiles
           :uploadUrl="uploadUrl"
@@ -74,7 +75,7 @@
 
 <script>
 import {url, required} from "vuelidate/lib/validators";
-import {bus} from "../../plugins/bus";
+import {bus} from "@/plugins/bus";
 
 export default {
   name: "AddVideo",
@@ -87,7 +88,7 @@ export default {
       uploadUrl: '',
       theme: '',
       multiple: false,
-      accept: 'video/*',
+      accept: 'video/mp4, video/quicktime, video/mov',
       maxSize: '100MB',
       maxFiles: 1,
       helpText: 'Clic o arrastra aquí videos',
@@ -97,7 +98,7 @@ export default {
       }
     }
   },
-  props: ['resourceVideoId', 'editResource', 'dataPathVideo'],
+
   validations: {
     pathVideo: {required}
   },
@@ -176,7 +177,8 @@ export default {
     pathVideo: {
       handler(val) {
         setTimeout(() => {
-          this.$emit('dataVideo', val)
+          this.$emit('dataResource', val)
+          // this.$emit('dataVideo', val)
         }, 200)
       },
       deep: true
@@ -184,7 +186,10 @@ export default {
     pathVideoUrl: {
       handler(val) {
         setTimeout(() => {
-          this.$emit('dataVideoUrl', val)
+          if (!val){
+            this.pathVideo = ''
+          }
+          this.$emit('dataVideoPathFileType', val)
         }, 200)
       },
       deep: true

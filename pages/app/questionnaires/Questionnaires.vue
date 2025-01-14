@@ -55,6 +55,12 @@ export default {
       )
       // this.openModalAddQuestionaire = true
     }
+  },
+  mounted() {
+    this.$echo.channel('channel-testing')
+      .listen('.testingEvent', (e) => {
+        console.log('Evento recibido:', e);
+      });
   }
 }
 </script>

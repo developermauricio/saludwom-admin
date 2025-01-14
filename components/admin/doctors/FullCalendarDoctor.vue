@@ -18,7 +18,7 @@ export default {
   },
   methods: {
     showInfoEvent(appointment){
-      console.log(appointment)
+
       this.$FModal.show(
         {
           component: ShowInfoAppointment,
@@ -32,7 +32,7 @@ export default {
     getAppointments() {
       this.$vs.loading({
         color: this.$config.colorLoading,
-        text: 'Removiendo disponibilidad...'
+        text: 'Espere por favor...'
       })
         this.$axios.get(`/api/v1/get-doctor-appointments-agenda/${this.doctor.id}`).then(resp => {
           this.appointments = resp.data.data

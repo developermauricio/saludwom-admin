@@ -6,10 +6,10 @@
       <div class="row">
         <div class="col-12 d-flex justify-content-end mt-2">
           <div>
-            <button class="btn btn-danger mr-2" @click="closeModal">Cancelar</button>
+            <button class="btn btn-secondary mr-2" @click="closeModal">Cancelar</button>
           </div>
           <div>
-            <button class="btn btn-success" @click="addDoctor">Agregar Especialista</button>
+            <button class="btn btn-primary" @click="addDoctor">Agregar Especialista</button>
           </div>
         </div>
       </div>

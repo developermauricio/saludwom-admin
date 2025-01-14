@@ -5,7 +5,7 @@
         <h3 class="text-center">{{ questionnaire.name }}</h3>
         <!--  Descripción  -->
         <p>{{ questionnaire.description }}</p>
-        <!--  Tratamientos   -->
+        <!--  Especialidades   -->
         <div class="my-2">
           <div v-for="(treatment, index) in questionnaire.treatments" :key="index">
             <ul class="m-0">

@@ -154,7 +154,7 @@ $(window).on('load', function () {
     },
     series: [
       {
-        name: 'Orders',
+        name: 'orders',
         data: [10, 15, 8, 15, 7, 12, 8]
       }
     ],

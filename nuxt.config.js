@@ -1,4 +1,7 @@
 export default {
+  globals: {
+    customScript: true,
+  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'saludwom-admin',
@@ -8,20 +11,30 @@ export default {
       {hid: 'description', name: 'description', content: ''},
       {name: 'format-detection', content: 'telephone=no'}
     ],
+    htmlAttrs: {
+      "data-textdirection": "ltr",
+    },
     bodyAttrs: {
-      class: 'vertical-layout vertical-menu-modern  navbar-floating',
+      class: 'pace-done vertical-layout vertical-menu-modern navbar-floating footer-static menu-expanded',
       'data-open': "click",
       'data-menu': "vertical-menu-modern",
       'data-col': ""
     },
+
     script: [
-      {src: "https://code.jquery.com/jquery-3.4.1.min.js"},
       // {
       //   src: 'https://unpkg.com/feather-icons'
       // },
       // {
       //   src: 'https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.5/perfect-scrollbar.min.js'
       // },
+      {
+        src: 'https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js'
+      },
+      {
+        src: 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js'
+      },
+
       {
         type: 'text/javascript'
       }
@@ -57,28 +70,35 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    {src: "~/plugins/jquery", mode: "client"},
     '~/plugins/vue-sax',
     '~/plugins/vuelidate',
     '~/plugins/vue-multiselect',
     '~/plugins/laravel-permissions',
+    // {src: '~/plugins/vue-sidebar-menu.js'},
+    // {src: '~/plugins/vue-sidebar-menu-akahon.js'},
+    {src: '~/app-assets/vendors/js/vendors.min.js', mode: 'client'},
     {src: '~/plugins/truncate.js'},
     {src: '~/plugins/vue-easytable', ssr: false},
+    {src: '~/plugins/main', ssr: false},
     {src: '~/plugins/splideplugin', mode: 'client'},
     {src: '~/plugins/mqtt', mode: 'client', ssr: false},
+    {src: '~/plugins/fontawesome', mode: 'client', ssr: false},
     {src: '~/app-assets/js/core/app.js', mode: 'client'},
+    {src: '~/app-assets/js/core/app-menu.js', mode: 'client', ssr: true},
     {src: '~/plugins/vue-ctk-date-time-picker', ssr: false},
-    {src: '~/app-assets/js/core/app-menu.js', mode: 'client'},
     {src: '~/plugins/vue-js-popover.js', mode: 'client', ssr: false},
     {src: '~/plugins/vue-sweetalert2', mode: 'client', ssr: false},
-    {src: '~/app-assets/vendors/js/vendors.min.js', mode: 'client'},
     {src: '~/plugins/vue-file-agent.js', mode: 'client', ssr: false},
     {src: '~/plugins/vue-load-image.js', mode: 'client', ssr: false},
     {src: '~/plugins/vue-toastification', mode: 'client', ssr: false},
     {src: '~/plugins/vuejs-datepicker.js', mode: 'client', ssr: false},
     {src: '~/plugins/vue-phone-number-input.js', ssr: false},
+    {src: '~/plugins/vue-currency-filter.js', mode: 'client', ssr: false},
     {src: '~/plugins/vue-functional-calendar.js', mode: 'client', ssr: false},
     {src: '~/plugins/vue-fullpage-modal.js', mode: 'client', ssr: false},
-    {src: '~/plugins/vuejs-loadmore.js'}
+    {src: '~/plugins/vuejs-loadmore.js'},
+    {src: '~/plugins/v-mask.js'},
   ],
 
   publicRuntimeConfig: {
@@ -129,6 +149,12 @@ export default {
       '~/components/admin/doctors',
       '~/components/full-calendar',
       '~/components/admin/patients',
+      '~/components/admin/orders',
+      '~/components/admin/specialities',
+      '~/components/admin/plans',
+      '~/components/admin/appointments',
+      '~/components/admin/coupons',
+      '~/components/admin/subscriptions',
       '~/components/calendar-doctor',
       '~/components/admin/valorations',
       '~/components/doctor/patients',
@@ -141,7 +167,16 @@ export default {
   buildModules: [
     '@nuxtjs/moment',
     '@nuxtjs/router',
-    '@nuxtclub/feathericons'
+    '@nuxtclub/feathericons',
+    ['@nuxtjs/laravel-echo',{
+      broadcaster: 'pusher',
+      key: 'aicode',
+      wsHost: '127.0.0.1',
+      wsPort: 6001,
+      cluster: 'mt1',
+      forceTLS: false,
+      disableStats: true,
+    }],
   ],
   moment: {
     defaultLocale: 'es',
@@ -176,6 +211,12 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    postcss: null,
+    loaders: {
+      vue: {
+        prettify: false
+      }
+    },
     transpile: [
       '@fullcalendar/core' // Añade otros módulos si es necesario
       // ...

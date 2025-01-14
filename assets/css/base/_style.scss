@@ -10,6 +10,11 @@
 .feather-x{
   color: #02B8BF !important;
 }
+.icon-resource svg{
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+  color: #b2b2b2 !important;
+}
 
 //.vgt-table thead th{
 //  background-color: #FFFFFF !important;
@@ -212,4 +217,33 @@ a.text-primary:hover{
 .vdp-datepicker__calendar .cell.selected{
   background-color: #792141 !important;
   color: #ffffff !important;
+}
+.main-menu.menu-light .navigation > li ul .active{
+  background: linear-gradient(118deg, #792141, rgb(102, 28, 55)) !important;
+  box-shadow: 0 0 10px 1px rgb(125, 37, 69) !important;
+  border-radius: 4px !important;
+}
+.nav-item.active.open a{
+  box-shadow: none !important;
+}
+
+.vue-bootstrap-sidebar .feather{
+  width: 1.4rem !important;
+  height: 1.4rem !important;
+}
+
+.card-plans{
+  background-color: #D85C72 !important;
+  color: #ffffff !important;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: auto;
+
+  button{
+    background-color: #f1b10f !important;
+    color: #792141 !important;
+  }
+}
+.bg-light-danger .feather-x{
+  color: red !important;
 }

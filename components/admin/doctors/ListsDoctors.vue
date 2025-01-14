@@ -53,7 +53,7 @@ export default {
       }).catch(e => {
         this.$vs.loading.close()
         console.log(e)
-        this.$toast.error("Error al obtener los doctores. Consulte a soporte SaludWom");
+        this.$toast.error("Error al obtener los especialistas. Consulte a soporte SaludWom");
       })
     },
   },

@@ -182,6 +182,7 @@
             <span class="text-danger">*</span></label>
           <textarea
             v-model="form.biography"
+            placeholder="Biografía"
             :class="{ 'is-invalid': $v.form.biography.$error }"
             class="form-control" cols="8">
             </textarea>
@@ -195,7 +196,7 @@
         <!-- Tratamientos -->
         <div class="mb-1">
           <label class="form-label" :class="{ 'text-danger': $v.form.treatments.$error }"
-                 for="exampleFormControlTextarea1">Tratamientos<span
+                 for="exampleFormControlTextarea1">Especialidades<span
             class="text-danger">*</span></label>
           <multiselect
             :class="{ 'is-invalid': $v.form.treatments.$error }"
@@ -210,9 +211,9 @@
             deselectLabel=""
             selectLabel="Selecciona"
             :show-labels="true"
-            placeholder="Buscar tratamiento..."></multiselect>
-          <p class="text-danger font-weight-bold" v-if="$v.form.treatments.$error">Debe asignar uno o varios
-            tratamientos.</p>
+            placeholder="Buscar especialidad..."></multiselect>
+          <p class="text-danger font-weight-bold" v-if="$v.form.treatments.$error">Debe asignar una o varias
+            especialidades.</p>
         </div>
       </div>
     </div>
@@ -361,11 +362,11 @@ export default {
       })
     },
     getTreatments() {
-      this.$axios.get('api/v1/get-treatments').then(resp => {
+      this.$axios.get('api/v1/get-treatments-actives').then(resp => {
         this.treatments = resp.data.data
       }).catch(e => {
         console.log(e)
-        this.$toast.error("Error al obtener los tratamientos. Consulte a soporte SaludWom.");
+        this.$toast.error("Error al obtener las especialidades. Consulte a soporte SaludWom.");
       })
     },
     selectedCity(city) {

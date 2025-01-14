@@ -69,7 +69,7 @@ export default {
           renderBodyCell: ({row, column, rowIndex}, h) => {
             return <div class="d-flex align-items-center">
               <div class="mt-2">
-                <h5>{row.patient.user.name} {row.patient.user.last_name}</h5>
+                <p>{row.patient.user.name} {row.patient.user.last_name}</p>
               </div>
             </div>
 
@@ -84,7 +84,7 @@ export default {
           renderBodyCell: ({row, column, rowIndex}, h) => {
             return <div class="d-flex align-items-center">
               <div class="mt-2">
-                <h5>{row.treatment.treatment}</h5>
+                <p>{row.treatment.treatment}</p>
               </div>
             </div>
 

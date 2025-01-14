@@ -1,7 +1,8 @@
 import mqtt from 'mqtt';
 
+
 // const connection = {
-//     host: "broker.emqx.io",
+//     host: "mqtt.eventmovil.co",
 //     port: 8083,
 //     endpoint: "/mqtt",
 //     clean: true,
@@ -9,21 +10,22 @@ import mqtt from 'mqtt';
 //     reconnectPeriod: 4000,
 //     // Certification Information
 //     clientMQId: "mqttjs_3be2c321",
-//     username: "emqx_test",
-//     password: "emqx_test",
+//     username: "mqtt",
+//     password: "HVH1RpPLiB2hxI5VwKoY",
 // };
 
 const connection = {
-    host: "mqtt.eventmovil.co",
-    port: 8083,
-    endpoint: "/mqtt",
-    clean: true,
-    connectTimeout: 4000,
-    reconnectPeriod: 4000,
-    // Certification Information
-    clientMQId: "mqttjs_3be2c321",
-    username: "mqtt",
-    password: "HVH1RpPLiB2hxI5VwKoY",
+  host: "198.199.71.156",
+  port: 8083,
+  protocol: 'ws',
+  endpoint: "",
+  clean: true,
+  connectTimeout: 4000,
+  reconnectPeriod: 4000,
+  // Certification Information
+  clientMQId: "mqttjs_local",
+  username: "SALUDWOM-2025",
+  password: "SALUDWOM-2025",
 };
 
 let clientMQ = {

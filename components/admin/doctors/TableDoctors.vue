@@ -58,7 +58,6 @@
 
 import ShowDoctor from "./ShowDoctor";
 import CalendarSchedule from "../../calendar-doctor/CalendarSchedule";
-import {bus} from "../../../plugins/bus";
 import EditDoctor from "./EditDoctor";
 
 export default {
@@ -75,7 +74,18 @@ export default {
           width: "1%",
           align: "center",
         },
-        {field: "fullName", key: "name", title: "Nombre", align: "left", width: "3%"},
+        {
+          field: "fullName", key: "name", title: "Nombre", align: "left", width: "3%",
+          renderBodyCell: ({row, column, rowIndex}, h) => {
+            return <a href="#" on-click={() => this.openShowDoctor(row)}>
+              <div class="d-flex align-items-center">
+                <div class="mt-2">
+                  <p>{row.fullName}</p>
+                </div>
+              </div>
+            </a>
+          },
+        },
         {
           field: "state", key: "state", title: "Estado", align: "center", width: "1%",
           renderBodyCell: ({row, column, rowIndex}, h) => {
@@ -99,7 +109,7 @@ export default {
         {
           field: "",
           key: "e",
-          title: "Action",
+          title: "Acciones",
           width: "4%",
           center: "left",
 
@@ -208,9 +218,9 @@ export default {
         exist = this.doctors.filter(
           (x) =>
             !searchValue.length ||
-            x.name.toLowerCase().includes(searchValue.toLowerCase())
+            x.name.toLowerCase().includes(searchValue.toLowerCase()) || x.lastName.toLowerCase().includes(searchValue.toLowerCase()) || x.email.toLowerCase().includes(searchValue.toLowerCase())
         );
-        console.log(exist)
+
         if (exist.length > 0) {
           this.$emit('searchDoctors', exist)
         } else {
@@ -278,8 +288,6 @@ export default {
       this.$FModal.show(
         {
           component: EditDoctor,
-          // clickToClose: false,
-          // escToClose: false,
           placement: 'center center',
         },
         {

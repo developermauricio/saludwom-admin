@@ -42,7 +42,7 @@
           </select>
         </div>
         <!--=====================================
-            FILTRAR POR TIPO
+            FILTRAR POR ESTADO
        ======================================-->
         <div class="mr-3 mt-1 px-1 m-md-0 m-lg-0">
           <label class="form-label" for="basicSelect">Filtrar por estado</label>
@@ -80,7 +80,7 @@
           </select>
         </div>
         <!--=====================================
-         BUSCAR PACIENTE
+         BUSCAR VALORACIONES
        ======================================-->
         <div class="mr-4 mt-1 px-1 m-md-0 m-lg-0">
           <label class="form-label">Buscar</label>
@@ -101,7 +101,7 @@
               :row-style-option="rowStyleOption"
               fixed-header
               :sort-option="sortOption"
-              :max-height="500"
+              max-height="calc(100vh - 350px)"
               :checkbox-option="checkboxOption"
               row-key-field-name="valoration_id"
               :event-custom-option="eventCustomOption"
@@ -190,10 +190,21 @@ export default {
           field: "index",
           key: "index",
           title: "#",
-          width: "5%",
+          width: "8%",
           align: "center",
         },
-        {field: "valoration_name", key: "valoration_name", title: "Nombre Objetivo", align: "left", width: "25%"},
+        {
+          field: "valoration_name", key: "valoration_name", title: "Nombre Objetivo", align: "left", width: "25%",
+          renderBodyCell: ({row, column, rowIndex}, h) => {
+            return <a href={"/objetivos/" + row.valoration_slug}>
+              <div class="d-flex align-items-center">
+                <div class="mt-2">
+                  <p>{row.valoration_name}</p>
+                </div>
+              </div>
+            </a>
+          },
+        },
         {
           field: "name",
           key: "name",
@@ -204,7 +215,7 @@ export default {
             return <div class="d-flex align-items-center">
               <div class="mr-2 d-flex">
                 <div>
-                  <img width="40" src={this.$config.urlBack + row.picture} alt=""/>
+                  <img width="40" src={this.userPicture(row)} alt=""/>
                 </div>
 
                 <vs-tooltip text={row.country} position="left" style="cursor:pointer" class="my-auto">
@@ -236,17 +247,26 @@ export default {
             }
           },
         },
-        {field: "gender", key: "gender", title: "Género", align: "center", width: "15%"},
-        {field: "age", sortBy: "", key: "age", title: "Edad", align: "center", width: "10%"},
+        {field: "gender", key: "gender", title: "Género", align: "left", width: "15%"},
+        // {field: "age", sortBy: "", key: "age", title: "Edad", align: "center", width: "10%"},
         {
           field: "valoration_suscription",
           key: "valoration_suscription",
           title: "Suscripción",
-          align: "center",
+          align: "left",
           width: "15%"
         },
-        {field: "document", key: "document", title: "Documento", align: "center", width: "25%"},
-        {field: "doctor", key: "doctor", title: "Especialista", align: "center", width: "25%"},
+        // {field: "document", key: "document", title: "Documento", align: "center", width: "25%"},
+        {
+          field: "doctor", key: "doctor", title: "Especialista", align: "left", width: "25%",
+          renderBodyCell: ({row, column, rowIndex}, h) => {
+            return <div class="d-flex align-items-center">
+              <div class="mt-2">
+                <p>Esp. {row.doctor}</p>
+              </div>
+            </div>
+          },
+        },
         {
           field: "valoration_created_at",
           key: "valoration_created_at",
@@ -257,10 +277,31 @@ export default {
             return this.$moment(row.valoration_created_at).format('DD MMMM YYYY')
           },
         },
+        // {
+        //   field: "",
+        //   key: "e",
+        //   title: "Acciones",
+        //   width: "13%",
+        //   center: "left",
+        //   renderBodyCell: ({row, column, rowIndex}, h) => {
+        //     return (
+        //       <span>
+        //         <button title="Tooltip directive content"
+        //                 class="btn btn-primary btn-sm mr-1"
+        //                 on-click={() => this.showPatient(row)}>
+        //             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-eye" viewBox="0 0 16 16">
+        //                 <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+        //                 <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+        //             </svg>
+        //         </button>
+        //       </span>
+        //     )
+        //   }
+        // }
 
       ],
       pageIndex: 1,
-      pageSize: 10,
+      pageSize: 20,
       /*Data information*/
       checked: [],
       urlExportExcel: '',
@@ -269,6 +310,17 @@ export default {
   },
   props: ['valorations', 'messageIsValuations'],
   methods: {
+    userPicture(patient) {
+
+      if (patient.picture.includes('user-profile.png') || patient.picture.includes('storage')) {
+        return `${this.$config.urlBack}${patient.picture}`
+      }
+      // Verifica si hay una imagen de usuario y devuelve la URL correspondiente
+      return patient.picture
+    },
+    showPatient(row){
+      this.$router.push({path: `/objetivos/${row.valoration_slug}`})
+    },
     getGenders() {
       this.$axios.get('/api/v1/get-genders').then(resp => {
         this.genders = resp.data.data
@@ -435,7 +487,20 @@ export default {
     this.getDoctors()
   },
   created() {
-    this.timezoneUser = Intl.DateTimeFormat().resolvedOptions().timeZone
+    try {
+      const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+      if (userTimeZone) {
+        this.timezoneUser = userTimeZone;
+      } else {
+        // Si no se pudo obtener la zona horaria del navegador, establecer una predeterminada
+        this.timezoneUser = 'Europe/Madrid'; // Por ejemplo, configurar como UTC
+      }
+    } catch (error) {
+      console.error('Error al obtener la zona horaria:', error);
+      // En caso de un error, también puedes establecer una zona horaria predeterminada
+      this.timezoneUser = 'Europe/Madrid';
+    }
   },
   computed: {
     // table data

@@ -14,12 +14,12 @@
         </thead>
 
         <tbody>
-        <tr v-for="(question, index) in $store.state.app.questionnaire.questions" :key="index">
+        <tr v-for="(question, index) in isAdd ? this.$store.state.app.questionnaire.questions : questions" :key="index">
           <td>{{ question.question }}</td>
           <td>{{ question.type_question.name }}</td>
-<!--          <td>{{ questionRequired(question.required) }}</td>-->
+          <!--          <td>{{ questionRequired(question.required) }}</td>-->
           <td>{{ question.required === true || question.required === 1 ? 'Si' : 'No' }}</td>
-          <td class="text-center" >
+          <td class="text-center">
             <img @click="previewIlustration(question)" v-if="question.illustration"
                  width="50" height="50"
                  :src="question.illustration.urlResized ?  question.illustration.urlResized  : $config.urlBack+question.illustration"
@@ -62,11 +62,12 @@ export default {
   data() {
     return {
       dragging: false,
+      questions: [],
     }
   },
-  props: ['question'],
+  props: ['question', 'isAdd'],
   methods: {
-    questionRequired(required){
+    questionRequired(required) {
       console.log('Validación ', required)
       return required === true || 1 || '1' ? 'Si' : 'No'
     },
@@ -84,9 +85,19 @@ export default {
       )
     },
     removeQuestion(index, question) {
+
       this.$store.commit('SET_REMOVE_QUESTIONS', question)
-      this.$store.state.app.questionnaire.questions.splice(index, 1)
+
+      if (this.isAdd){
+        this.$store.state.app.questionnaire.questions.splice(index, 1)
+        return
+      }
+
+      this.questions.splice(index, 1)
     }
+  },
+  created() {
+    this.questions = this.question ? this.question.slice() : [];
   },
 }
 </script>

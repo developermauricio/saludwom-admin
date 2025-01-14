@@ -34,28 +34,57 @@
             <p class="text-danger font-weight-bold" v-if="$v.form.descriptionQuestionnaire.$error">La descripción es
               requerida.</p>
           </div>
-          <!-- Tratamientos -->
-          <div class="mb-1">
-            <label class="form-label" :class="{ 'text-danger': $v.form.treatments.$error }"
-                   for="exampleFormControlTextarea1">Relacionado con uno varios tratamientos <span
-              class="text-danger">*</span></label>
-            <multiselect
-              :class="{ 'is-invalid': $v.form.treatments.$error }"
-              v-model="form.treatments"
-              :options="treatments"
-              :searchable="true"
-              :close-on-select="true"
-              :custom-label="nameSelect"
-              track-by="id"
-              :multiple="true"
-              selectedLabel="Seleccionado"
-              deselectLabel=""
-              @remove="removeTreatment"
-              selectLabel="Selecciona"
-              :show-labels="true"
-              placeholder="Buscar tratamiento..."></multiselect>
-            <p class="text-danger font-weight-bold" v-if="$v.form.treatments.$error">Debe asignar uno o varios
-              tratamientos.</p>
+          <div class="row">
+            <div class="col-md-6 col-12">
+              <!-- Especialidades -->
+              <div class="mb-1">
+                <label class="form-label" :class="{ 'text-danger': $v.form.treatments.$error }"
+                       for="exampleFormControlTextarea1">Relacionado con una ó varias especialidades <span
+                  class="text-danger">*</span></label>
+                <multiselect
+                  :class="{ 'is-invalid': $v.form.treatments.$error }"
+                  v-model="form.treatments"
+                  :options="treatments"
+                  :searchable="true"
+                  :close-on-select="true"
+                  :custom-label="nameSelect"
+                  track-by="id"
+                  @remove="removeTreatment"
+                  :multiple="true"
+                  selectedLabel="Seleccionado"
+                  deselectLabel=""
+                  selectLabel="Selecciona"
+                  :show-labels="true"
+                  placeholder="Buscar especialidad..."></multiselect>
+                <p class="text-danger font-weight-bold" v-if="$v.form.treatments.$error">Debe asignar una o varias
+                  especialidades.</p>
+              </div>
+            </div>
+            <div class="col-md-6 col-12">
+
+              <div class="mb-1">
+                <label class="form-label" :class="{ 'text-danger': $v.form.categories.$error }"
+                       for="exampleFormControlTextarea1">Categoría <span
+                  class="text-danger">*</span></label>
+                <multiselect
+                  :class="{ 'is-invalid': $v.form.categories.$error }"
+                  v-model="form.categories"
+                  :options="categories"
+                  :searchable="true"
+                  :close-on-select="true"
+                  :custom-label="nameSelectCategory"
+                  track-by="id"
+                  :multiple="true"
+                  @remove="removeCategories"
+                  selectedLabel="Seleccionado"
+                  deselectLabel=""
+                  selectLabel="Selecciona"
+                  :show-labels="true"
+                  placeholder="Seleccionar una o varias categorías..."></multiselect>
+                <p class="text-danger font-weight-bold" v-if="$v.form.categories.$error">La categoría es
+                  requerida.</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -70,7 +99,7 @@
     <!--=====================================
        LISTA Y PREVIEW DEL CUESTIONARIO
    ======================================-->
-      <ListQuestionsQuestionnaires :questions="questionnaire.questions" :questionnaire="questionnaire"/>
+      <ListQuestionsQuestionnaires :isAdd="false" :questions="questionnaire.questions" :questionnaire="questionnaire"/>
     <!--=====================================
        FOOTER
    ======================================-->
@@ -87,7 +116,7 @@
 
 <script>
 import {required} from "vuelidate/lib/validators";
-import {bus} from "../../plugins/bus";
+import {bus} from "@/plugins/bus";
 
 export default {
   name: "ModalUpdateQuestionnaire",
@@ -97,9 +126,11 @@ export default {
         nameQuestionnaire: '',
         descriptionQuestionnaire: '',
         treatments: [],
-        questions: []
+        questions: [],
+        categories: []
       },
-      treatments: []
+      treatments: [],
+      categories: []
     }
   },
   props: ['questionnaire'],
@@ -108,6 +139,7 @@ export default {
       nameQuestionnaire: {required},
       descriptionQuestionnaire: {required},
       treatments: {required},
+      categories: {required},
     }
   },
   beforeMount() {
@@ -117,13 +149,26 @@ export default {
       this.form.nameQuestionnaire = this.questionnaire.name
       this.form.descriptionQuestionnaire = this.questionnaire.description
       this.form.treatments = this.questionnaire.treatments
+      this.form.categories = this.questionnaire.categories
       //Datos de las preguntas
       this.$store.state.app.questionnaire.questions = this.questionnaire.questions
     }, 100)
   },
   methods: {
+    nameSelectCategory({category}) {
+      return `${category}`
+    },
     removeTreatment(treatment){
-      this.$store.commit('SED_ADD_DELETE_TREATMENTS_IN_QUESTIONNAIRE', treatment)
+      setTimeout(() =>{
+        this.$store.commit('SED_ADD_DELETE_TREATMENTS_IN_QUESTIONNAIRE', treatment)
+      }, 500)
+
+    },
+    removeCategories(category){
+      setTimeout(() =>{
+        this.$store.commit('SED_ADD_DELETE_CATEGORIES_IN_QUESTIONNAIRE', category)
+      }, 500)
+
     },
     updateQuestionnaire() {
       this.$v.form.$touch();
@@ -164,7 +209,7 @@ export default {
           }).catch(e => {
             this.$vs.loading.close()
             console.log(e)
-            this.$toast.error("Error al actualizar el cuestionario. Consulte a soporte SaludWom.");
+            this.$toast.error("Hubo un error, puede ser que la pregunta ya tiene una respuesta dada por algún paciente. Consulte a soporte SaludWom.");
           })
         }
       })
@@ -215,17 +260,26 @@ export default {
       })
     },
     getTreatments() {
-      this.$axios.get('api/v1/get-treatments').then(resp => {
+      this.$axios.get('api/v1/get-treatments-actives').then(resp => {
         this.treatments = resp.data.data
       }).catch(e => {
         console.log(e)
-        this.$toast.error("Error al obtener los tratamientos. Consulte a soporte SaludWom.");
+        this.$toast.error("Error al obtener las especialidades. Consulte a soporte SaludWom.");
+      })
+    },
+    getCategories() {
+      this.$axios.get('api/v1/get-categories').then(resp => {
+        this.categories = resp.data.data
+      }).catch(e => {
+        console.log(e)
+        this.$toast.error("Error al obtener las categorias. Consulte a soporte SaludWom.");
       })
     }
   },
 
   mounted() {
     this.getTreatments()
+    this.getCategories()
   },
   watch: {
     'form.nameQuestionnaire': function (val) {
@@ -236,6 +290,9 @@ export default {
     },
     'form.treatments': function (val) {
       this.$store.commit('SET_TREATMENT_QUESTIONNAIRE', val)
+    },
+    'form.categories': function (val) {
+      this.$store.commit('SET_CATEGORIES_QUESTIONNAIRE', val)
     }
   }
 }

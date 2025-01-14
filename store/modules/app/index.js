@@ -5,7 +5,9 @@ export const state = () => ({
     description: '',
     solved: Boolean,
     treatments: [],
+    categories: [],
     deleteTreatments: [],
+    deleteCategories: [],
     questions: [],
     removeQuestions: [],
   },
@@ -23,6 +25,16 @@ export const mutations = {
       state.questionnaire.deleteTreatments = [payload]
     }
   },
+
+  SED_ADD_DELETE_CATEGORIES_IN_QUESTIONNAIRE(state, payload){
+    if (state.questionnaire.deleteCategories && typeof state.questionnaire.deleteCategories[Symbol.iterator] === 'function') {
+      state.questionnaire.deleteCategories = [...state.questionnaire.deleteCategories, payload]
+    } else {
+      state.questionnaire.deleteCategories = [payload]
+    }
+  },
+
+
   //Remueve las preguntas al cuestionario
   SET_REMOVE_QUESTIONS(state, payload) {
     if (payload.id){
@@ -45,6 +57,10 @@ export const mutations = {
   SET_TREATMENT_QUESTIONNAIRE(state, payload) {
     state.questionnaire.treatments = payload
   },
+  //Agregar la descripción del cuestionario
+  SET_CATEGORIES_QUESTIONNAIRE(state, payload) {
+    state.questionnaire.categories = payload
+  },
   //Limpiar el cuestionario cuando de clic en cancelar
   CLEAR_QUESTIONNAIRE(state) {
     state.questionnaire = {
@@ -52,6 +68,7 @@ export const mutations = {
       description: '',
       questions: [],
       treatments: [],
+      categories: [],
       removeQuestions: [],
       deleteTreatments: [],
     }

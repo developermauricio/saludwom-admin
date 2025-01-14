@@ -68,7 +68,7 @@ export default {
           momentTimezonePlugin
         ],
         initialView: 'dayGridMonth',
-        nowIndicator: false,
+        nowIndicator: true,
         editable: false,
         weekends: true,
         locales: [esLocale],
@@ -157,7 +157,21 @@ export default {
     }
   },
   mounted() {
-    this.timezoneUser = Intl.DateTimeFormat().resolvedOptions().timeZone
+    try {
+      const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+      if (userTimeZone) {
+        this.timezoneUser = userTimeZone;
+      } else {
+        // Si no se pudo obtener la zona horaria del navegador, establecer una predeterminada
+        this.timezoneUser = 'Europe/Madrid'; // Por ejemplo, configurar como UTC
+      }
+    } catch (error) {
+      console.error('Error al obtener la zona horaria:', error);
+      // En caso de un error, también puedes establecer una zona horaria predeterminada
+      this.timezoneUser = 'Europe/Madrid';
+    }
+
     this.fullCalendarApi = this.$refs.fullCalendar.getApi()
     this.titleView = this.fullCalendarApi.currentData.viewSpec.buttonTextDefault
     this.customTitle()
